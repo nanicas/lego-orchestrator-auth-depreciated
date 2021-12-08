@@ -5,6 +5,7 @@ namespace App\Libraries\Annacode\Controllers;
 use Illuminate\Http\Request;
 use App\Libraries\Annacode\Services\LoginSourceService;
 use App\Libraries\Annacode\Controllers\AbstractLoginController;
+use App\Libraries\Annacode\Helpers\Helper;
 
 class LoginSourceController extends AbstractLoginController
 {
@@ -14,10 +15,7 @@ class LoginSourceController extends AbstractLoginController
     {
         parent::__construct();
 
-        $service = new LoginSourceService();
-        $service->configureRepositories();
-
-        $this->setService($service);
+        $this->setService(new LoginSourceService());
     }
 
     public function showLoginForm()
@@ -43,5 +41,12 @@ class LoginSourceController extends AbstractLoginController
         }
 
         return $_POST['url_callback'].'?'.$this->authenticateData['params'];
+    }
+
+    public function generateTempAuthByToken()
+    {
+        Helper::defaultExecutationToReplyJson(function () {
+            return $this->getService()->getTempAuthByToken();
+        });
     }
 }

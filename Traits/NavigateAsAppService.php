@@ -17,6 +17,7 @@ trait NavigateAsAppService
 {
 
     use ResponseTrait;
+    
     private $config;
     private $user;
     private $userService;

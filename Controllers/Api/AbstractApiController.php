@@ -19,19 +19,9 @@ class AbstractApiController extends Controller
 
     public function __call($name, $arguments)
     {
-        $service = $this->getService();
-
-        try {
-            $data     = $service->{$name}(...$arguments);
-            $status   = true;
-            $response = $data;
-        } catch (\Throwable $ex) {
-            $message  = $ex->getMessage();
-            $status   = false;
-            $response = ['message' => $message];
-        }
-
-        header('Content-Type: application/json');
-        echo json_encode(Helper::createDefaultJsonToResponse($status, $response));
+        Helper::defaultExecutationToReplyJson(function () use ($name, $arguments) {
+            $service = $this->getService();
+            return $service->{$name}(...$arguments);
+        });
     }
 }

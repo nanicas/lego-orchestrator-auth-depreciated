@@ -12,7 +12,7 @@ trait AuthenticateMiddlewareTrait
     public function handle($request, \Closure $next, ...$guards)
     {
         $header = getallheaders()['Authorization'];
-
+        
         if (empty($header)) {
             echo json_encode(Helper::createDefaultJsonToResponse(false,
                     ['message' => 'authorization_was_not_sent']));

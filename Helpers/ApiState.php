@@ -29,6 +29,11 @@ class ApiState
         self::$config = $config;
     }
 
+    public static function all()
+    {
+        return self::$config;
+    }
+
     public static function getConfig(string $key)
     {
         return self::$config[$key] ?? null;

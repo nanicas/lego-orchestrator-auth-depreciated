@@ -28,4 +28,5 @@ class ApplicationService
 
         return $hydrator->hydrateArray(json_decode($response->getBody()->getContents()));
     }
+
 }

@@ -3,9 +3,9 @@
 namespace App\Libraries\Annacode\Services;
 
 use App\Libraries\Annacode\Services\AuthorizationService;
-use App\Libraries\Annacode\Repositories\AuthorizationRepository;
-use App\Libraries\Annacode\Services\AbstractService;
-use App\Libraries\Annacode\Services\LoginConfig;
+use App\Libraries\Annacode\Services\AbstractLoginService;
+use App\Libraries\Annacode\Helpers\ApiState;
+use App\Libraries\Annacode\Services\UserService;
 
 /*
  * To change this license header, choose License Headers in Project Properties.
@@ -18,26 +18,28 @@ use App\Libraries\Annacode\Services\LoginConfig;
  *
  * @author Joseph
  */
-class LoginSourceService extends AbstractService
+class LoginSourceService extends AbstractLoginService
 {
 
     public function __construct()
     {
-        $this->config = new LoginConfig();
-    }
+        parent::__construct();
 
-    public function configureRepositories(array $repos = [])
-    {
-        $this->setDependencie(
-            'auth', $repos['auth'] ?? AuthorizationRepository::class
-        );
+        $this->setDependencie('auth_service', new AuthorizationService());
+        $this->setDependencie('user_service', new UserService());
     }
 
     public function getTempAuth($user, $slug)
     {
-        $repository           = $this->getDependencie('auth');
-        $authorizationService = new AuthorizationService(new $repository());
+        return $this->getDependencie('auth_service')->getTempAuth($user, $slug);
+    }
 
-        return $authorizationService->getTempAuth($user, $slug);
+    public function getTempAuthByToken()
+    {
+        $state = ApiState::all();
+
+        $user = $this->getDependencie('user_service')->find($state['user_id']);
+
+        return $this->getDependencie('auth_service')->getTempAuth($user, $state['slug']);
     }
 }

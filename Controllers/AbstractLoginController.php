@@ -7,6 +7,7 @@ use Illuminate\Foundation\Auth\AuthenticatesUsers;
 use App\Libraries\Annacode\Contracts\HaveMyOwnAuthenticationContract;
 use Illuminate\Support\Facades\View;
 use App\Libraries\Annacode\Traits\AvailabilityWithService;
+use App\Libraries\Annacode\Helpers\Helper;
 
 class AbstractLoginController extends Controller
 {
@@ -36,5 +37,12 @@ class AbstractLoginController extends Controller
     public function existsTempAuth()
     {
         return (!empty($_GET['token']));
+    }
+
+    public function generateTempAuthInSourcer()
+    {
+        Helper::defaultExecutationToReplyJson(function () {
+            return $this->service->generateTempAuthInSourcer()['response'];
+        });
     }
 }

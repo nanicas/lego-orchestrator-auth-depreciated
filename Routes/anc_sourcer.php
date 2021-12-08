@@ -29,19 +29,32 @@ $config = Helper::readConfig();
 
 Route::prefix($config['route_prefix'])->group(function () use ($config) {
 
-    Route::middleware([$config['authenticable_middleware']])->prefix('/users')->group(function () use ($config) {
-        Route::get('/{id}', [$config['user_api'], 'find']);
+    Route::middleware([$config['authenticable_middleware']])->group(function () use ($config) {
+
+        Route::post('/login/generateTempAuthByToken',
+            [LoginController::class, 'generateTempAuthByToken'])->name('generateTempAuthByToken');
+
+        Route::prefix('/users')->group(function () use ($config) {
+            Route::get('/{id}', [$config['user_api'], 'find']);
+        });
     });
 
-    Route::middleware(['web'])->prefix('/login')->group(function () {
-        Route::get('/generateTokenByTemp',
-            [LoginController::class, 'generateTokenByTemp'])->name('generateTokenByTemp');
+    Route::middleware(['web'])->group(function () {
 
-        Route::get('/tryRegenerateToken',
-            [LoginController::class, 'tryRegenerateToken'])->name('tryRegenerateToken');
+        Route::prefix('/login')->group(function () {
 
-        Route::get('/changeSessionByIdentifier',
-            [LoginController::class, 'changeSessionByIdentifier'])->name('changeSessionByIdentifier');
+            Route::post('/generateTempAuthInSourcer',
+                [LoginController::class, 'generateTempAuthInSourcer'])->name('generateTempAuthInSourcer');
+
+            Route::get('/generateTokenByTemp',
+                [LoginController::class, 'generateTokenByTemp'])->name('generateTokenByTemp');
+
+            Route::get('/tryRegenerateToken',
+                [LoginController::class, 'tryRegenerateToken'])->name('tryRegenerateToken');
+
+            Route::get('/changeSessionByIdentifier',
+                [LoginController::class, 'changeSessionByIdentifier'])->name('changeSessionByIdentifier');
+        });
     });
 
     Route::post('/authorization/verify',

@@ -53,8 +53,9 @@ trait NavigateAsAppController
 
                 $sessionData = $service->generateSessionData($service->getResponse()['response']);
                 $service->configureSession($sessionData);
-            } finally {
+                
                 SessionService::resetLoginAttempts();
+            } finally {
                 return $this->getAdapter()->redirSuccessfully();
             }
         } catch (CurrentAuthNotFoundException | ImpossibilityRegenerateTokenException $exception) {

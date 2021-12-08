@@ -97,4 +97,20 @@ class Helper
     {
         return \App\Libraries\Annacode\Adapters\FactoryAdapter::instance($type);
     }
+
+    public static function defaultExecutationToReplyJson(\Closure $callable)
+    {
+        try {
+            $data     = $callable();
+            $status   = true;
+            $response = $data;
+        } catch (\Throwable $ex) {
+            $message  = $ex->getMessage();
+            $status   = false;
+            $response = ['message' => $message];
+        }
+
+        header('Content-Type: application/json');
+        echo json_encode(self::createDefaultJsonToResponse($status, $response));
+    }
 }

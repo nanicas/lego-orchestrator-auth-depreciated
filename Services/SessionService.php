@@ -125,7 +125,7 @@ class SessionService
         return $auth[$id]['expire_at'] - (time() - $auth[$id]['created_at']);
     }
 
-    public static function getUserSession()
+    public static function getCurrentSessionData()
     {
         if (!self::isLogged()) {
             return;
@@ -137,6 +137,13 @@ class SessionService
 
         $identifier = self::getSessionIdentifier();
 
-        return $auth[$identifier]['user'];
+        return $auth[$identifier];
+    }
+
+    public static function getUserSession()
+    {
+        $auth = self::getCurrentSessionData();
+
+        return (empty($auth)) ? null : $auth['user'];
     }
 }
