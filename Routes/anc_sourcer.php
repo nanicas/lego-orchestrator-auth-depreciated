@@ -25,17 +25,18 @@ Route::get('/applications',
         return response()->json(Application::get());
     });
 
-$config = Helper::readConfig();
+$ancConfig = Helper::readConfig();
+$ancMiddlewares = $ancConfig['middlewares'];
 
-Route::prefix($config['route_prefix'])->group(function () use ($config) {
+Route::prefix($ancConfig['route_prefix'])->group(function () use ($ancConfig, $ancMiddlewares) {
 
-    Route::middleware([$config['authenticable_middleware']])->group(function () use ($config) {
+    Route::middleware([$ancMiddlewares['authenticable_middleware']])->group(function () use ($ancConfig) {
 
         Route::post('/login/generateTempAuthByToken',
             [LoginController::class, 'generateTempAuthByToken'])->name('generateTempAuthByToken');
 
-        Route::prefix('/users')->group(function () use ($config) {
-            Route::get('/{id}', [$config['user_api'], 'find']);
+        Route::prefix('/users')->group(function () use ($ancConfig) {
+            Route::get('/{id}', [$ancConfig['user_api'], 'find']);
         });
     });
 

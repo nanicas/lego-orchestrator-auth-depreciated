@@ -25,12 +25,12 @@ class AuthFillerMiddleware
             }
 
             return $next($request);
-        } catch (ExpiredSessionException | NotAuthenticatedException $exc) {
+        } catch (\Exception | ExpiredSessionException | NotAuthenticatedException $exc) {dd($exc);
             return $adapter->redirect(
                     'login',
                     ['message' => $exc->getMessage(), 'action' => 'tryRegenerateToken']
             );
-        } catch (\Throwable $thr) {
+        } catch (\Throwable $thr) {dd($thr);
             return $adapter->redirect('login', ['message' => $thr->getMessage()]);
         }
     }

@@ -1,18 +1,22 @@
 <?php
 
-namespace App\Libraries\Annacode\Traits;
+namespace App\Libraries\Annacode\Middlewares;
 
 use GuzzleHttp\Client;
 use App\Libraries\Annacode\Helpers\Helper;
 use App\Libraries\Annacode\Helpers\ApiState;
 
-trait AuthenticateMiddlewareTrait
+class AuthenticateMiddleware
 {
 
     public function handle($request, \Closure $next, ...$guards)
     {
+        if (empty(Helper::readConfig()['is_sourcer'])) {
+            return $next($request);
+        }
+
         $header = getallheaders()['Authorization'];
-        
+
         if (empty($header)) {
             echo json_encode(Helper::createDefaultJsonToResponse(false,
                     ['message' => 'authorization_was_not_sent']));

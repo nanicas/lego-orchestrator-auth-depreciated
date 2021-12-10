@@ -1,13 +1,19 @@
 <?php
 
-namespace App\Libraries\Annacode\Models;
+namespace App\Libraries\Annacode\Models\Laravel;
 
-use App\Libraries\Annacode\Models\AbstractModel;
+use App\Libraries\Annacode\Models\AbstractLaravelModel;
+use App\Libraries\Annacode\Traits\Models\AuthorizationModelTrait;
 
-class Authorization extends AbstractModel
+class AuthorizationL extends AbstractLaravelModel
 {
-    const UPDATED_AT = null;
+
+    use AuthorizationModelTrait;
+
+    protected $table    = 'authorizations';
     
+    const UPDATED_AT = null;
+
     /**
      * The attributes that are mass assignable.
      *
@@ -27,8 +33,4 @@ class Authorization extends AbstractModel
         'verified_at' => 'datetime',
     ];
 
-    public function getCode()
-    {
-        return $this->code;
-    }
 }

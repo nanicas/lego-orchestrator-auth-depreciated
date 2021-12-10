@@ -3,12 +3,15 @@
 namespace App\Libraries\Annacode\Repositories;
 
 use App\Libraries\Annacode\Repositories\AbstractRepository;
+use App\Libraries\Annacode\Helpers\Helper;
 
 class UserRepository extends AbstractRepository
 {
 
     public function __construct()
     {
-        parent::setModel(new \App\Models\User());
+        $model = Helper::readConfig()['models']['user'];
+
+        parent::setModel(new $model());
     }
 }

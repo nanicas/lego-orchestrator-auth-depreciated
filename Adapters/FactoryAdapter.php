@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Libraries\Annacode\Adapters;
+namespace app\libraries\Annacode\Adapters;
 
 use App\Libraries\Annacode\Helpers\Helper;
 use App\Libraries\Annacode\Adapters\Login\RawLoginAdapter;
@@ -9,12 +9,15 @@ use App\Libraries\Annacode\Adapters\Session\RawSessionAdapter;
 use App\Libraries\Annacode\Adapters\Session\LaravelSessionAdapter;
 use App\Libraries\Annacode\Adapters\Cookie\RawCookieAdapter;
 use App\Libraries\Annacode\Adapters\Cookie\LaravelCookieAdapter;
+use App\Libraries\Annacode\Adapters\General\LaravelGeneralAdapter;
+use App\Libraries\Annacode\Adapters\General\RawGeneralAdapter;
 
 class FactoryAdapter
 {
     const LOGIN_TYPE   = 'Login';
     const SESSION_TYPE = 'Session';
     const COOKIE_TYPE  = 'Cookie';
+    const GENERAL_TYPE  = 'General';
 
     protected static $instance = array();
 
@@ -45,6 +48,9 @@ class FactoryAdapter
             case self::SESSION_TYPE:
                 return new RawSessionAdapter();
                 break;
+            case self::GENERAL_TYPE:
+                return new RawGeneralAdapter();
+                break;
             case self::COOKIE_TYPE:
                 return new RawCookieAdapter();
         }
@@ -58,6 +64,9 @@ class FactoryAdapter
                 break;
             case self::SESSION_TYPE:
                 return new LaravelSessionAdapter();
+                break;
+            case self::GENERAL_TYPE:
+                return new LaravelGeneralAdapter();
                 break;
             case self::COOKIE_TYPE:
                 return new LaravelCookieAdapter();

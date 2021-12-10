@@ -28,7 +28,7 @@ class LoginNotSourceService extends AbstractLoginService
         if ($extractedResponse['status'] === false) {
             throw new ImpossibilityGenerateTokenByTokenException($extractedResponse['response']['message']);
         }
-        
+
         return $extractedResponse;
     }
 }

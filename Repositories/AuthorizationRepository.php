@@ -3,13 +3,15 @@
 namespace App\Libraries\Annacode\Repositories;
 
 use App\Libraries\Annacode\Repositories\AbstractRepository;
-use App\Libraries\Annacode\Models\Authorization;
+use App\Libraries\Annacode\Helpers\Helper;
 
 class AuthorizationRepository extends AbstractRepository
 {
 
     public function __construct()
     {
-        parent::setModel(new Authorization());
+        $model = Helper::readConfig()['models']['authorization'];
+
+        parent::setModel(new $model());
     }
 }
