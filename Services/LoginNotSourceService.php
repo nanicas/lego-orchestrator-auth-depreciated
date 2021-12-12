@@ -22,7 +22,7 @@ class LoginNotSourceService extends AbstractLoginService
             'headers' => ['Authorization' => $session['token']]
         ]);
 
-        $response = $client->post($session['own_url']. '/login/generateTempAuthByToken');
+        $response = $client->post($session['own_api_url']. '/login/generateTempAuthByToken');
         $extractedResponse = Helper::extractJsonFromRequester($response);
 
         if ($extractedResponse['status'] === false) {

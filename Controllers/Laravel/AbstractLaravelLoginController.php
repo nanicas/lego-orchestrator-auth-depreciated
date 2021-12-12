@@ -21,8 +21,8 @@ class AbstractLaravelLoginController extends Controller
     public function __construct()
     {
         View::addNamespace(
-            LaravelGeneralAdapter::VIEW_PREFIX,
-            app_path().'/Libraries/Annacode/Views'
+            LaravelGeneralAdapter::getViewPrefix(),
+            resource_path('views/' .LaravelGeneralAdapter::getViewPath())
         );
     }
 }

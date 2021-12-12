@@ -7,6 +7,7 @@ use App\Libraries\Annacode\Services\LoginSourceService;
 use App\Libraries\Annacode\Controllers\Laravel\AbstractLaravelLoginController;
 use App\Libraries\Annacode\Helpers\Helper;
 use App\Libraries\Annacode\Adapters\FactoryAdapter;
+use Illuminate\Support\Facades\Auth;
 
 class LoginLaravelSourceController extends AbstractLaravelLoginController
 {
@@ -16,29 +17,34 @@ class LoginLaravelSourceController extends AbstractLaravelLoginController
     {
         parent::__construct();
 
+        $this->middleware('auth.reuse')->only('showLoginForm');
+        $this->middleware('guest')->except('logout');
+        
         $this->setService(new LoginSourceService());
     }
 
     public function showLoginForm()
     {
         $adapter = FactoryAdapter::instance(FactoryAdapter::GENERAL_TYPE);
-        return $adapter->loadView('login');
+        return $adapter->loadView('sourced_login');
     }
 
     protected function authenticated(Request $request, $user)
     {
-        if (!$this->isOutSourcedAccess()) {
+        if (!Helper::isOutSourcedAccess()) { //desenvolver regra pra salvar os cookies locais
             return;
         }
 
         $this->authenticateData = $this->getService()->getTempAuth(
             $user, $_POST['slug']
         );
+
+        Auth::logout();
     }
 
     public function redirectTo()
     {
-        if (!$this->isOutSourcedAccess()) {
+        if (!Helper::isOutSourcedAccess()) {
             return;
         }
 

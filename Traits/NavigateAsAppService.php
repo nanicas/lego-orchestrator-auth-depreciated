@@ -17,7 +17,7 @@ trait NavigateAsAppService
 {
 
     use ResponseTrait;
-    
+
     private $config;
     private $user;
     private $userService;
@@ -86,7 +86,7 @@ trait NavigateAsAppService
     public function generateSessionData(array $data)
     {
         $client          = new Client(['headers' => ['Authorization' => $data['token']]]);
-        $requestResponse = $client->request('GET', $data['own_url'].'/users/'.$data['user_id']);
+        $requestResponse = $client->request('GET', $data['own_api_url'].'/users/'.$data['user_id']);
 
         $response = Helper::extractJsonFromRequester($requestResponse);
         $this->setResponse($response);
@@ -129,6 +129,7 @@ trait NavigateAsAppService
             'token' => $data['token'],
             'expire_at' => $data['expire_at'],
             'own_url' => $data['own_url'],
+            'own_api_url' => $data['own_api_url'],
             'user' => $data['user'],
             'created_at' => time()
         ]);
@@ -143,5 +144,5 @@ trait NavigateAsAppService
             ),
         ]);
     }
-    
+
 }

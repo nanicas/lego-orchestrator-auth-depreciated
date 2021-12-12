@@ -12,6 +12,7 @@ return [
     'user_api' => App\Libraries\Annacode\Controllers\Api\UserApiController::class,
     'is_sourcer' => false,
     'is_laravel' => true,
-    'route_prefix' => 'anc',
+    'route_group' => 'anc',
+    'api_group' => 'api'
 ];
 

@@ -2,12 +2,16 @@
 
 namespace App\Libraries\Annacode\Adapters\General;
 
-class RawGeneralAdapter
+use App\Libraries\Annacode\Adapters\General\AbstractGeneralAdapter;
+
+class RawGeneralAdapter extends AbstractGeneralAdapter
 {
 
     public function loadView(string $path, array $data)
     {
         $this->incrementExtensionFiles($path);
+
+        $path = parent::getViewPath().'/'.$path;
 
         return includeWithVariables(view($path), $data);
     }

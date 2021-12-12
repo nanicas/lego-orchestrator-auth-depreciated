@@ -104,7 +104,7 @@ class SessionService
         self::isLogged();
 
         $auth = self::getAdapter()->readSessionValue('auth');
-
+        
         if (empty($auth)) {
             throw new NotAuthenticatedException();
         }

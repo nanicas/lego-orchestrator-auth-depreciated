@@ -12,7 +12,7 @@
                         @foreach($applications as $app)
                             <div class="card">
                                 <div class="card-body">
-                                    <a href="{{ $app->getLoginRoute() }}">{{ $app->getName() }}</a>
+                                    <a href="{{ $app->getLoginRoute().'?'.\App\Libraries\Annacode\Helpers\Helper::createBuildQueryToOutLogin() }}">{{ $app->getName() }}</a>
                                 </div>
                             </div>
                         @endforeach

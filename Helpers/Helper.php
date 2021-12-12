@@ -3,6 +3,7 @@
 namespace App\Libraries\Annacode\Helpers;
 
 use Psr\Http\Message\ResponseInterface;
+use App\Libraries\Annacode\Adapters\FactoryAdapter;
 
 class Helper
 {
@@ -11,7 +12,8 @@ class Helper
     {
         //$complement = () ? : ;
         //$complement = '/routes/login.php';
-        $complement = '/public/login/generateTokenByTemp';
+        //$complement = '/public/login/generateTokenByTemp';
+        $complement = '';
 
         return http_build_query([
             'url_callback' => env('APP_URL').$complement
@@ -55,7 +57,7 @@ class Helper
                                                            int $userId)
     {
         return hash("crc32", "$ownId-$slug-$userId}");
-    } 
+    }
 
     public static function isLogged()
     {
@@ -95,7 +97,17 @@ class Helper
 
     public static function getAdapter(string $type)
     {
-        return \App\Libraries\Annacode\Adapters\FactoryAdapter::instance($type);
+        return FactoryAdapter::instance($type);
+    }
+
+    public static function getLoginAdapter()
+    {
+        return self::getAdapter(FactoryAdapter::LOGIN_TYPE);
+    }
+
+    public static function getGeneralAdapter()
+    {
+        return self::getAdapter(FactoryAdapter::GENERAL_TYPE);
     }
 
     public static function defaultExecutationToReplyJson(\Closure $callable)
@@ -112,5 +124,26 @@ class Helper
 
         header('Content-Type: application/json');
         echo json_encode(self::createDefaultJsonToResponse($status, $response));
+    }
+
+    public static function isOutSourcedAccess()
+    {
+        return (!empty($_POST['url_callback']) || !empty($_GET['url_callback']));
+    }
+
+    public static function existsTempAuthInUrl()
+    {
+        return (!empty($_GET['token']));
+    }
+
+    public static function laravelWebMiddlewares(array $middlewares = ['web'])
+    {
+        $config = self::readConfig();
+
+        if ($config['is_sourcer'] == false ) {
+            $middlewares[] = $config['middlewares']['auth_filler_middleware'];
+        }
+
+        return $middlewares;
     }
 }

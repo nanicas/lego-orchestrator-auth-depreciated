@@ -20,6 +20,10 @@ class BootstrapServiceProvider extends ServiceProvider
         $this->publishes([
             app_path('/Libraries/Annacode/Routes') => base_path('routes'),
         ], 'routes');
+
+        $this->publishes([
+            app_path('/Libraries/Annacode/Views/Laravel') => resource_path('views/vendor/anc'),
+        ], 'views');
     }
 
     /**

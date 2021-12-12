@@ -5,6 +5,7 @@ namespace App\Libraries\Annacode\Traits\Login;
 use App\Libraries\Annacode\Contracts\HaveMyOwnAuthenticationContract;
 use App\Libraries\Annacode\Services\ApplicationService;
 use App\Libraries\Annacode\Adapters\FactoryAdapter;
+use App\Libraries\Annacode\Helpers\Helper;
 
 trait CommonActionsInLoginControllerTrait
 {
@@ -16,15 +17,7 @@ trait CommonActionsInLoginControllerTrait
 //        return (isset($interfaces[HaveMyOwnAuthenticationContract::class]));
 //    }
 
-    public function isOutSourcedAccess()
-    {
-        return (!empty($_POST['url_callback']));
-    }
-
-    public function existsTempAuth()
-    {
-        return (!empty($_GET['token']));
-    }
+    
 
     public function generateTempAuthInSourcer()
     {
@@ -35,7 +28,7 @@ trait CommonActionsInLoginControllerTrait
 
     public function showLoginForm()
     {
-        if ($this->existsTempAuth()) {
+        if (Helper::existsTempAuthInUrl()) {
             return $this->generateTokenByTemp();
         }
 

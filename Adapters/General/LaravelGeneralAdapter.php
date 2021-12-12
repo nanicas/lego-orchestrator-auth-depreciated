@@ -2,16 +2,21 @@
 
 namespace App\Libraries\Annacode\Adapters\General;
 
-class LaravelGeneralAdapter
+use App\Libraries\Annacode\Adapters\General\AbstractGeneralAdapter;
+
+class LaravelGeneralAdapter extends AbstractGeneralAdapter
 {
-    const VIEW_PREFIX = 'annacode';
 
     public function loadView(string $path, array $data = [])
     {
-        if (strpos($path, self::VIEW_PREFIX) === false) {
-            $path = self::VIEW_PREFIX.'::'.$path;
-        }
+        $path   = str_replace('/', '.', $path);
+        $prefix = parent::getViewPrefix();
 
+        if (strpos($path, $prefix) === false) {
+            $path = $prefix.'::'.$path;
+        }
+        //dd($path);
+        //$path = 'anc::outsourced_login.blade';
         return view($path, $data);
     }
 

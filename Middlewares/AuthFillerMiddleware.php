@@ -5,7 +5,6 @@ namespace App\Libraries\Annacode\Middlewares;
 use App\Libraries\Annacode\Helpers\Helper;
 use App\Libraries\Annacode\Exceptions\ExpiredSessionException;
 use App\Libraries\Annacode\Exceptions\NotAuthenticatedException;
-use App\Libraries\Annacode\Adapters\FactoryAdapter;
 use App\Libraries\Annacode\Services\SessionService;
 
 class AuthFillerMiddleware
@@ -13,25 +12,27 @@ class AuthFillerMiddleware
 
     public function handle($request, \Closure $next, ...$guards)
     {
-        $adapter = Helper::getAdapter(FactoryAdapter::LOGIN_TYPE);
-        
+        $loginAdapter = Helper::getLoginAdapter();
+
         try {
-            //Helper::sessionStart();
+            if (method_exists($loginAdapter, 'beforeCheckedValidSession')) {
+                $loginAdapter->beforeCheckedValidSession();
+            }
 
             SessionService::isLogged();
 
-            if (method_exists($adapter, 'afterCheckedValidSession')) {
-                $adapter->afterCheckedValidSession();
+            if (method_exists($loginAdapter, 'afterCheckedValidSession')) {
+                $loginAdapter->afterCheckedValidSession();
             }
 
             return $next($request);
-        } catch (\Exception | ExpiredSessionException | NotAuthenticatedException $exc) {dd($exc);
-            return $adapter->redirect(
-                    'login',
-                    ['message' => $exc->getMessage(), 'action' => 'tryRegenerateToken']
-            );
-        } catch (\Throwable $thr) {dd($thr);
-            return $adapter->redirect('login', ['message' => $thr->getMessage()]);
+        } catch (ExpiredSessionException | NotAuthenticatedException $exc) {
+            return $loginAdapter->redirLoginPage([
+                    'message' => $exc->getMessage(),
+                    'action' => 'tryRegenerateToken'
+            ]);
+        } catch (\Throwable $thr) {
+            return $loginAdapter->redirLoginPage(['message' => $thr->getMessage()]);
         }
     }
 }

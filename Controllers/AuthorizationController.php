@@ -27,7 +27,7 @@ class AuthorizationController extends Controller
 
         try {
             $status = $this->service->checkIfExistsCode($data);
-            $message = 'verified_with_success';
+            $message = 'verified_with_success' . ( ($status) ? 'no_error' : 'containing_error' ) ;
         } catch (\Throwable $ex) {
             $status = false;
             $message = $ex->getMessage();
