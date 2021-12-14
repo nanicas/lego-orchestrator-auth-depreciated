@@ -20,6 +20,15 @@ class LaravelGeneralAdapter extends AbstractGeneralAdapter
         return view($path, $data);
     }
 
+    public function getLoginRoute()
+    {
+        if (!empty($login = env('APP_LOGIN_ROUTE'))) {
+            return env('APP_URL') . $login;
+        }
+
+        return route('login');
+    }
+
     public function setFlash($key, $value)
     {
         session()->flash($key, $value);

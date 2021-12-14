@@ -16,7 +16,7 @@ class LoginNotSourceService extends AbstractLoginService
 
     public function generateTempAuthInSourcer()
     {
-        $session = SessionService::getCurrentSessionData();
+        $session = SessionService::getCurrentData();
 
         $client = new Client([
             'headers' => ['Authorization' => $session['token']]

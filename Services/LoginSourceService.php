@@ -21,25 +21,20 @@ use App\Libraries\Annacode\Services\UserService;
 class LoginSourceService extends AbstractLoginService
 {
 
-    public function __construct()
-    {
-        parent::__construct();
-
-        $this->setDependencie('auth_service', new AuthorizationService());
-        $this->setDependencie('user_service', new UserService());
-    }
-
     public function getTempAuth($user, $slug)
     {
-        return $this->getDependencie('auth_service')->getTempAuth($user, $slug);
+        $service = new AuthorizationService();
+
+        return $service->getTempAuth($user, $slug);
     }
 
     public function getTempAuthByToken()
     {
-        $state = ApiState::all();
+        $state   = ApiState::all();
+        $service = new UserService();
 
-        $user = $this->getDependencie('user_service')->find($state['user_id']);
+        $user = $service->find($state['user_id']);
 
-        return $this->getDependencie('auth_service')->getTempAuth($user, $state['slug']);
+        return $this->getTempAuth($user, $state['slug']);
     }
 }

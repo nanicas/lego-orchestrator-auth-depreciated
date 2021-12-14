@@ -34,12 +34,12 @@ Route::prefix($ancConfig['route_group'])->group(function () use ($ancConfig, $an
         ->middleware([$ancMiddlewares['authenticable_middleware']])
         ->group(function () use ($ancConfig) {
 
-        Route::post('/login/generateTempAuthByToken',
-            [LoginController::class, 'generateTempAuthByToken'])->name('generateTempAuthByToken');
+            Route::post('/login/generateTempAuthByToken',
+                [LoginController::class, 'generateTempAuthByToken'])->name('generateTempAuthByToken');
 
-        Route::prefix('/users')->group(function () use ($ancConfig) {
-            Route::get('/{id}', [$ancConfig['user_api'], 'find']);
-        });
+            Route::prefix('/users')->group(function () use ($ancConfig) {
+                Route::get('/{id}', [$ancConfig['user_api'], 'find']);
+            });
     });
 
     Route::middleware(['web'])->group(function () {

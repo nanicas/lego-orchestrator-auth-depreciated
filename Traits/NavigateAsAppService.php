@@ -11,7 +11,7 @@ use App\Libraries\Annacode\Services\SessionService;
 use App\Libraries\Annacode\Traits\ResponseTrait;
 use GuzzleHttp\Client;
 use App\Libraries\Annacode\Helpers\Helper;
-use App\Libraries\Annacode\Adapters\FactoryAdapter;
+use App\Libraries\Annacode\Factories\PersistenceDataFactory;
 
 trait NavigateAsAppService
 {
@@ -21,10 +21,14 @@ trait NavigateAsAppService
     private $config;
     private $user;
     private $userService;
+    private $continuousStorage;
+    private $tempStorage;
 
     public function __construct()
     {
         $this->config = new LoginConfig();
+        $this->continuousStorage = PersistenceDataFactory::continuous();
+        $this->tempStorage = PersistenceDataFactory::temp();
     }
 
     public function tryGenerateAccessToken(array $data)
@@ -48,14 +52,9 @@ trait NavigateAsAppService
 
     public function tryRegenerateAccessToken()
     {
-        $cookieAdapter = Helper::getAdapter(FactoryAdapter::COOKIE_TYPE);
+        $id = $this->continuousStorage->getIdentifier();
 
-        $currentKey = $cookieAdapter->readCookieValue('current_auth');
-        if (empty($currentKey)) {
-            throw new CurrentAuthNotFoundException('Não foi possível encontrar os dados mínimos para gerar um novo acesso');
-        }
-
-        $refreshTokenEncrypted = $cookieAdapter->readCookieValue("auth_refresh_token_{$currentKey}");
+        $refreshTokenEncrypted = $this->continuousStorage->getRefreshTokenByIdentifier($id);
         if (empty($refreshTokenEncrypted)) {
             throw new CurrentAuthNotFoundException('Não foi possível encontrar os dados mínimos para gerar um novo acesso');
         }
@@ -100,16 +99,16 @@ trait NavigateAsAppService
     }
 
     public function changeSessionByIdentifier(string $identifier)
-    {
-        $sessionAdapter = Helper::getAdapter(FactoryAdapter::SESSION_TYPE);
-        $sessionAdapter->changeSessionByIdentifier([
+    { 
+        $tempStorageAdapter = $this->tempStorage::getAdapter();
+        $tempStorageAdapter->changeTempSessionDataByIdentifier([
             'session_identifier' => $identifier
         ]);
 
         $auth = SessionService::getAdapter()->readSessionValue('auth');
 
-        $cookieAdapter = Helper::getAdapter(FactoryAdapter::COOKIE_TYPE);
-        $cookieAdapter->changeCookieByIdentifier([
+        $continuousStorageAdapter = $this->continuousStorage::getAdapter();
+        $continuousStorageAdapter->changeContinuousDataByIdentifier([
             'expire_at' => ($auth[$identifier]['created_at'] + $auth[$identifier]['expire_at']),
             'path' => env('APP_URL'),
             'session_identifier' => $identifier
@@ -122,8 +121,8 @@ trait NavigateAsAppService
                 $data['own_id'], $data['slug'], $data['user_id']
         );
 
-        $sessionAdapter = Helper::getAdapter(FactoryAdapter::SESSION_TYPE);
-        $sessionAdapter->configureSession([
+        $tempStorageAdapter = $this->tempStorage::getAdapter();
+        $tempStorageAdapter->configureTempSessionData([
             'is_logged' => true,
             'session_identifier' => $sessionIdentifier,
             'token' => $data['token'],
@@ -134,8 +133,8 @@ trait NavigateAsAppService
             'created_at' => time()
         ]);
 
-        $cookieAdapter = Helper::getAdapter(FactoryAdapter::COOKIE_TYPE);
-        $cookieAdapter->configureCookie([
+        $continuousStorageAdapter = $this->continuousStorage::getAdapter();
+        $continuousStorageAdapter->configureContinuousData([
             'session_identifier' => $sessionIdentifier,
             'path' => env('APP_URL'),
             'expire_at' => $data['expire_at'],

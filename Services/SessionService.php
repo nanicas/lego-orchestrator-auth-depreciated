@@ -6,8 +6,9 @@ use App\Libraries\Annacode\Exceptions\ExpiredSessionException;
 use App\Libraries\Annacode\Helpers\Helper;
 use App\Libraries\Annacode\Exceptions\NotAuthenticatedException;
 use App\Libraries\Annacode\Adapters\FactoryAdapter;
+use App\Libraries\Annacode\Contracts\PersistenceDataContract;
 
-class SessionService
+class SessionService implements PersistenceDataContract
 {
     const ATTEMPT_MAX = 3;
 
@@ -27,7 +28,8 @@ class SessionService
             $list[] = [
                 'identifier' => $key,
                 'name' => $session['user']['name'],
-                'own_id' => $session['user']['own_id']
+                'own_url' => $session['own_url'],
+                //'own_id' => $session['user']['own_id']
             ];
         }
 
@@ -83,7 +85,7 @@ class SessionService
         $isLogged = self::getAdapter()->readSessionValue('is_logged');
 
         $hasSession = ($isLogged === true);
-        $identifier = self::getSessionIdentifier();
+        $identifier = self::getIdentifier();
 
         if (!$hasSession || empty($identifier)) {
             throw new NotAuthenticatedException();
@@ -94,7 +96,7 @@ class SessionService
         return true;
     }
 
-    public static function getSessionIdentifier()
+    public static function getIdentifier()
     {
         return self::getAdapter()->readSessionValue('current_auth');
     }
@@ -125,7 +127,7 @@ class SessionService
         return $auth[$id]['expire_at'] - (time() - $auth[$id]['created_at']);
     }
 
-    public static function getCurrentSessionData()
+    public static function getCurrentData()
     {
         if (!self::isLogged()) {
             return;
@@ -135,14 +137,14 @@ class SessionService
             return;
         }
 
-        $identifier = self::getSessionIdentifier();
+        $identifier = self::getIdentifier();
 
         return $auth[$identifier];
     }
 
     public static function getUserSession()
     {
-        $auth = self::getCurrentSessionData();
+        $auth = self::getCurrentData();
 
         return (empty($auth)) ? null : $auth['user'];
     }

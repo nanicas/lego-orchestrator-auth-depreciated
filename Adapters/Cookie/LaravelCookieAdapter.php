@@ -10,7 +10,7 @@ use Illuminate\Cookie\CookieValuePrefix;
 class LaravelCookieAdapter
 {
 
-    public function configureCookie(array $data)
+    public function configureContinuousData(array $data)
     {
         $expireTime = ($data['expire_at'] / 60); //minutes
 
@@ -48,7 +48,7 @@ class LaravelCookieAdapter
         return CookieValuePrefix::remove($decrypted);
     }
 
-    public function changeCookieByIdentifier(array $data)
+    public function changeContinuousDataByIdentifier(array $data)
     {
         Cookie::queue(
             'current_auth', $data['session_identifier'],

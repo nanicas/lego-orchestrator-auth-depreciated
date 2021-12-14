@@ -10,13 +10,10 @@ class Helper
 
     public static function createBuildQueryToOutLogin(): string
     {
-        //$complement = () ? : ;
-        //$complement = '/routes/login.php';
-        //$complement = '/public/login/generateTokenByTemp';
-        $complement = '';
+        $adapter = self::getGeneralAdapter();
 
         return http_build_query([
-            'url_callback' => env('APP_URL').$complement
+            'url_callback' => $adapter->getLoginRoute()
         ]);
     }
 

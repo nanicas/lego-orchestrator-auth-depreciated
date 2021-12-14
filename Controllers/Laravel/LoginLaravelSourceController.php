@@ -31,7 +31,7 @@ class LoginLaravelSourceController extends AbstractLaravelLoginController
 
     protected function authenticated(Request $request, $user)
     {
-        if (!Helper::isOutSourcedAccess()) { //desenvolver regra pra salvar os cookies locais
+        if (!Helper::isOutSourcedAccess()) {
             return;
         }
 

@@ -5,7 +5,7 @@ namespace App\Libraries\Annacode\Adapters\Session;
 class LaravelSessionAdapter
 {
 
-    public function configureSession(array $data)
+    public function configureTempSessionData(array $data)
     {
         $auths = session('auth') ?? [];
         $auths = array_merge($auths,
@@ -33,7 +33,7 @@ class LaravelSessionAdapter
         return session()->get($key, null);
     }
 
-    public function changeSessionByIdentifier(array $data)
+    public function changeTempSessionDataByIdentifier(array $data)
     {
         session()->put('current_auth', $data['session_identifier']);
     }

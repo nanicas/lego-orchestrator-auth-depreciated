@@ -16,13 +16,12 @@ trait NavigateAsAppController
         Helper::sessionStart();
 
         $id = $_GET['id'];
-
+        
         try {
-            SessionService::isLoggedByIdentifier($id); //otherwise, throws exception
+            SessionService::isLoggedByIdentifier($id);
             $this->getService()->changeSessionByIdentifier($id);
         } catch (\Throwable $exc) {
-            Helper::getGeneralAdapter()->setFlash('error_message',
-                $exc->getMessage());
+            Helper::getGeneralAdapter()->setFlash('error_message', $exc->getMessage());
         } finally {
             return Helper::getLoginAdapter()->redirSuccessfully();
         }

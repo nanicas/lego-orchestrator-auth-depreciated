@@ -16,6 +16,12 @@ class RawGeneralAdapter extends AbstractGeneralAdapter
         return includeWithVariables(view($path), $data);
     }
 
+    public function getLoginRoute()
+    {
+        $login = env('APP_LOGIN_ROUTE') ?? '/login.php';
+        return env('APP_URL') . $login;
+    }
+
     public function setFlash($key, $value)
     {
         $_SESSION[$key] = $value;

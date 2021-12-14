@@ -1,23 +1,14 @@
 <?php
 
-namespace App\Libraries\Annacode\Traits\Login;
+namespace App\Libraries\Annacode\Traits;
 
-use App\Libraries\Annacode\Contracts\HaveMyOwnAuthenticationContract;
 use App\Libraries\Annacode\Services\ApplicationService;
 use App\Libraries\Annacode\Adapters\FactoryAdapter;
 use App\Libraries\Annacode\Helpers\Helper;
+use App\Libraries\Annacode\Filters\ApplicationRemoverItself;
 
 trait CommonActionsInLoginControllerTrait
 {
-
-//    public function isSourceAuthorization()
-//    {
-//        $interfaces = class_implements($this);
-//
-//        return (isset($interfaces[HaveMyOwnAuthenticationContract::class]));
-//    }
-
-    
 
     public function generateTempAuthInSourcer()
     {
@@ -32,7 +23,7 @@ trait CommonActionsInLoginControllerTrait
             return $this->generateTokenByTemp();
         }
 
-        $service      = new ApplicationService();
+        $service      = new ApplicationService(new ApplicationRemoverItself());
         $applications = $service->getAllowedApplicationsToLogin();
 
         $adapter = FactoryAdapter::instance(FactoryAdapter::GENERAL_TYPE);

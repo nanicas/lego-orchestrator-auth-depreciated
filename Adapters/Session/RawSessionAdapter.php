@@ -5,7 +5,7 @@ namespace App\Libraries\Annacode\Adapters\Session;
 class RawSessionAdapter
 {
 
-    public function configureSession(array $data)
+    public function configureTempSessionData(array $data)
     {
         $_SESSION['current_auth']                      = $data['session_identifier'];
         $_SESSION['is_logged']                         = $data['is_logged'];
@@ -19,7 +19,7 @@ class RawSessionAdapter
         ];
     }
 
-    public function changeSessionByIdentifier(array $data)
+    public function changeTempSessionDataByIdentifier(array $data)
     {
         $_SESSION['current_auth'] = $data['session_identifier'];
     }

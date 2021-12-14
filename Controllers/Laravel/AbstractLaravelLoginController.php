@@ -6,7 +6,7 @@ use App\Http\Controllers\Controller;
 use Illuminate\Foundation\Auth\AuthenticatesUsers;
 use Illuminate\Support\Facades\View;
 use App\Libraries\Annacode\Traits\AvailabilityWithService;
-use App\Libraries\Annacode\Traits\Login\CommonActionsInLoginControllerTrait;
+use App\Libraries\Annacode\Traits\CommonActionsInLoginControllerTrait;
 use App\Libraries\Annacode\Adapters\General\LaravelGeneralAdapter;
 
 class AbstractLaravelLoginController extends Controller
