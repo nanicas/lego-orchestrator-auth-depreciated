@@ -18,7 +18,7 @@ class RawGeneralAdapter extends AbstractGeneralAdapter
 
     public function getLoginRoute()
     {
-        $login = env('APP_LOGIN_ROUTE') ?? '/login.php';
+        $login = env('APP_LOGIN_ROUTE') ?? '/routes/login.php';
         return env('APP_URL') . $login;
     }
 
