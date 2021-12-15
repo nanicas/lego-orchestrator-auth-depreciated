@@ -2,16 +2,14 @@
 
 namespace App\Libraries\Annacode\Controllers\Laravel;
 
-use Illuminate\Http\Request;
-use App\Libraries\Annacode\Services\LoginSourceService;
-use App\Libraries\Annacode\Controllers\Laravel\AbstractLaravelLoginController;
+use App\Libraries\Annacode\Services\Login\LoginSourceService;
+use App\Libraries\Annacode\Controllers\Laravel\AbstractLoginLaravelController;
 use App\Libraries\Annacode\Helpers\Helper;
 use App\Libraries\Annacode\Adapters\FactoryAdapter;
-use Illuminate\Support\Facades\Auth;
+use App\Libraries\Annacode\Helpers\ApiState;
 
-class LoginLaravelSourceController extends AbstractLaravelLoginController
+class LoginLaravelSourceController extends AbstractLoginLaravelController
 {
-    private $authenticateData;
 
     public function __construct()
     {
@@ -29,32 +27,10 @@ class LoginLaravelSourceController extends AbstractLaravelLoginController
         return $adapter->loadView('sourced_login');
     }
 
-    protected function authenticated(Request $request, $user)
-    {
-        if (!Helper::isOutSourcedAccess()) {
-            return;
-        }
-
-        $this->authenticateData = $this->getService()->getTempAuth(
-            $user, $_POST['slug']
-        );
-
-        Auth::logout();
-    }
-
-    public function redirectTo()
-    {
-        if (!Helper::isOutSourcedAccess()) {
-            return;
-        }
-
-        return $_POST['url_callback'].'?'.$this->authenticateData['params'];
-    }
-
     public function generateTempAuthByToken()
     {
         Helper::defaultExecutationToReplyJson(function () {
-            return $this->getService()->getTempAuthByToken();
+            return $this->authorizationService->getTempAuthByState(ApiState::all());
         });
     }
 }

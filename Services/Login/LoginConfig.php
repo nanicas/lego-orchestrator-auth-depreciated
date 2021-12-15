@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Libraries\Annacode\Services;
+namespace App\Libraries\Annacode\Services\Login;
 
 class LoginConfig
 {

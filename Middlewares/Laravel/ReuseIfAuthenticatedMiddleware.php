@@ -3,10 +3,10 @@
 namespace App\Libraries\Annacode\Middlewares\Laravel;
 
 use App\Libraries\Annacode\Helpers\Helper;
-use App\Libraries\Annacode\Services\LoginSourceService;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Redirect;
+use App\Libraries\Annacode\Services\AuthorizationService;
 
 class ReuseIfAuthenticatedMiddleware
 {
@@ -21,7 +21,7 @@ class ReuseIfAuthenticatedMiddleware
             return $next($request);
         }
 
-        $service = new LoginSourceService();
+        $service = new AuthorizationService();
         $user    = Auth::user();
 
         $authenticatedData = $service->getTempAuth(
