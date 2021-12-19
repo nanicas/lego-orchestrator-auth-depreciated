@@ -2,7 +2,7 @@
 
 namespace App\Libraries\Annacode\Traits;
 
-use App\Libraries\Annacode\Services\LoginConfig;
+use App\Libraries\Annacode\Services\Login\LoginConfig;
 use App\Libraries\Annacode\Exceptions\CurrentAuthNotFoundException;
 use App\Libraries\Annacode\Exceptions\ImpossibilityRegenerateTokenException;
 use App\Libraries\Annacode\Exceptions\ImpossibilityToValidateTempTokenException;

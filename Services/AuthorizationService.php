@@ -110,11 +110,11 @@ class AuthorizationService extends AbstractService
             return false;
         }
 
-//        $model
-//            ->where('code', $decryptedJson['code'])
-//            ->where('user_id', $decryptedJson['user_id'])
-//            ->limit(1)
-//            ->update(['verified_at' => now()]);
+        $model
+            ->where('code', $decryptedJson['code'])
+            ->where('user_id', $decryptedJson['user_id'])
+            ->limit(1)
+            ->update(['verified_at' => now()]);
 
         return true;
     }

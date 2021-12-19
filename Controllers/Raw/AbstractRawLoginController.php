@@ -8,6 +8,5 @@ use App\Libraries\Annacode\Traits\CommonActionsInLoginControllerTrait;
 class AbstractRawLoginController
 {
 
-    use AvailabilityWithService,
-        CommonActionsInLoginControllerTrait;
+    use AvailabilityWithService;
 }
