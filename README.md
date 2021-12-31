@@ -6,10 +6,91 @@ Algumas aplicações necessitam de autenticação dos usuários para controlarem
 A integração pode ser feita utilizando um framework ou PHP puro, tudo depende do quão disposto você queira utilizá-lo. No fim da página, existe um exemplo de como usar com cada um dos exemplos abaixo:
 | APP | README |
 | ------ | ------ |
-| Laravel 8.x | [https://github.com/laravel/laravel/blob/8.x/README.md][PlDb] |
-| Raw Skeleton | [raw/plugins/github/README.md][PlGh] |
+| Laravel 8.x | [https://github.com/laravel/laravel/blob/8.x/README.md] |
+| Raw Skeleton | [raw/plugins/github/README.md] |
+
+### Se for Laravel, siga os passos:
+```php
+class LoginController extends LoginLaravelNotSourceController
+
+or
+
+class LoginController extends LoginLaravelSourceController
+class RegisterController extends RegisterLaravelSourceController
+```
+
+```sh
+php artisan vendor:publish --tag=routes
+php artisan vendor:publish --tag=views
+```
+
+No routes/web.php, carregue os middlewares:
+```php
+use \Annacode\Helpers\Helper;
+$middlewares = Helper::laravelWebMiddlewares(['web']);
+
+Route::group(['middleware' => $middlewares], function () { ...
+```
+
+No config/app.php, adicione o BootstrapServiceProvider na lista dos providers:
+```php
+\Annacode\Providers\BootstrapServiceProvider::class
+```
+
+No .env, defina:
+```
+APP_URL=host.docker.internal:8082/reason-rose-core
+AUTHORIZATION_APP_URL=host.docker.internal:8081/public/index.php
+APP_ID=1
+AUTHORIZATION_PUBLIC_KEY=""
+PUBLIC_KEY=""
+PRIVATE_KEY=""
+APP_LOGIN_ROUTE=/public/login
+```
+
+### Se for Raw (aplicação crua, geralmente usada para ser um APP FINAL), siga:
+```php
+class LoginController extends LoginRawNotSourceController
+```
+
+Em routes/login.php, ignore qualquer middleware:
+```php
+$class = new LoginController();
+$router = new Router($class, ['middlewares' => []]);
+```
+
+Em .env, defina:
+```
+APP_URL=host.docker.internal:80/reason-schedule-app
+PUBLIC_KEY=""
+PRIVATE_KEY=""
+AUTHORIZATION_APP_URL=host.docker.internal:8081/public/index.php
+AUTHORIZATION_PUBLIC_KEY=""
+```
 
 > Atenção: Por enquanto, somente o Laravel e a RawSkeleton foram integrados, nada impede você de fazer um fork do projeto e criar versões para os demais frameworks ou ecossistemas :)
+
+## Configuração de ambiente
+```php
+return [
+    'middlewares' => [
+        'auth_filler_middleware' => \Annacode\Middlewares\AuthFillerMiddleware::class,
+        'authenticable_middleware' => \Annacode\Middlewares\AuthenticateMiddleware::class,
+    ],
+    'models' => [
+        'application' => \Annacode\Models\Laravel\ApplicationL::class,
+        //'application' => \Annacode\Models\Laravel\ApplicationR::class, case laravel
+        'authorization' => \Annacode\Models\Laravel\AuthorizationL::class,
+        //'authorization' => \Annacode\Models\Laravel\AuthorizationR::class, case laravel
+        'user' => App\Models\User::class
+    ],
+    'user_api' => \Annacode\Controllers\Api\UserApiController::class,
+    'is_sourcer' => false,
+    'is_laravel' => true,
+    'route_group' => 'anc',
+    'api_group' => 'api'
+];
+```
 
 ## Modelos para autenticacão flexível 
 Existem algumas possibilidades de configurar seu ambiente de acordo com sua necessidade. Abaixo, seguem alguns exemplos:
