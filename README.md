@@ -78,10 +78,10 @@ return [
         'authenticable_middleware' => \Annacode\Middlewares\AuthenticateMiddleware::class,
     ],
     'models' => [
-        'application' => \Annacode\Models\Laravel\ApplicationL::class,
-        //'application' => \Annacode\Models\Laravel\ApplicationR::class, case laravel
-        'authorization' => \Annacode\Models\Laravel\AuthorizationL::class,
-        //'authorization' => \Annacode\Models\Laravel\AuthorizationR::class, case laravel
+        //'application' => \Annacode\Models\Laravel\ApplicationL::class, case laravel
+        'application' => \Annacode\Models\Laravel\ApplicationR::class,
+        //'authorization' => \Annacode\Models\Laravel\AuthorizationL::class, case laravel
+        'authorization' => \Annacode\Models\Laravel\AuthorizationR::class, 
         'user' => App\Models\User::class
     ],
     'user_api' => \Annacode\Controllers\Api\UserApiController::class,
