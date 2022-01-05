@@ -1,9 +1,9 @@
 ## Gerenciador de autenticações - LEGO AUTH
 
-Algumas aplicações necessitam de autenticação dos usuários para controlarem o acesso aos recursos. Sendo assim, a ideia desse componente é facilitar a integracão entre aplicações dependentes e aplicações fornecedoras das regras de autenticação utilizando criptografia assimétrica e padrão Oauth para comunicação.
+Algumas aplicações necessitam de autenticação dos usuários para controlarem o acesso aos recursos. Sendo assim, a ideia dessa biblioteca é facilitar a integracão entre aplicações dependentes e aplicações fornecedoras das regras de autenticação utilizando criptografia assimétrica e padrão Oauth para comunicação.
 
 ## Como posso integrar?
-A integração pode ser feita utilizando um framework ou PHP puro, tudo depende do quão disposto você queira utilizá-lo. No fim da página, existe um exemplo de como usar com cada um dos exemplos abaixo:
+A integração pode ser feita utilizando um framework ou PHP puro, tudo depende do quão disposto você queira utilizá-lo. A seguir, existem exemplos de como usar cada um.
 | APP | README |
 | ------ | ------ |
 | Laravel 8.x | [https://github.com/laravel/laravel/blob/8.x/README.md] |
@@ -11,49 +11,59 @@ A integração pode ser feita utilizando um framework ou PHP puro, tudo depende 
 
 ### Se for Laravel, siga os passos:
 ```php
+use Zevitagem\LegoAuth\Controllers\Laravel\LoginLaravelNotSourceController;
 class LoginController extends LoginLaravelNotSourceController
 
-or
+//or
+
+use Zevitagem\LegoAuth\Controllers\Laravel\LoginLaravelSourceController;
+use Zevitagem\LegoAuth\Controllers\Laravel\RegisterLaravelSourceController;
 
 class LoginController extends LoginLaravelSourceController
 class RegisterController extends RegisterLaravelSourceController
 ```
+
+Em routes/web.php, carregue os middlewares da biblioteca:
+```php
+use \Zevitagem\LegoAuth\Helpers\Helper;
+$middlewares = Helper::laravelWebMiddlewares(['web']);
+
+Route::group(['middleware' => $middlewares], function () { ...
+```
+
+Em config/app.php, adicione o provider na lista dos providers:
+```php
+\Zevitagem\LegoAuth\Providers\BootstrapServiceProvider::class
+````
+
+Em app/http/kernel.php, adicione o middleware na lista dos `routeMiddleware`:
+```php
+'auth.reuse' => \Zevitagem\LegoAuth\Middlewares\Laravel\ReuseIfAuthenticatedMiddleware::class
+````
 
 ```sh
 php artisan vendor:publish --tag=routes
 php artisan vendor:publish --tag=views
 ```
 
-No routes/web.php, carregue os middlewares:
-```php
-use \Annacode\Helpers\Helper;
-$middlewares = Helper::laravelWebMiddlewares(['web']);
-
-Route::group(['middleware' => $middlewares], function () { ...
+Em .env, defina:
 ```
-
-No config/app.php, adicione o BootstrapServiceProvider na lista dos providers:
-```php
-\Annacode\Providers\BootstrapServiceProvider::class
-```
-
-No .env, defina:
-```
-APP_URL=host.docker.internal:8082/reason-rose-core
-AUTHORIZATION_APP_URL=host.docker.internal:8081/public/index.php
+APP_URL=host.docker.internal:8082/any_app
 APP_ID=1
+APP_LOGIN_ROUTE=/public/login
+AUTHORIZATION_APP_URL=host.docker.internal:8081/public/index.php
 AUTHORIZATION_PUBLIC_KEY=""
 PUBLIC_KEY=""
 PRIVATE_KEY=""
-APP_LOGIN_ROUTE=/public/login
 ```
 
 ### Se for Raw (aplicação crua, geralmente usada para ser um APP FINAL), siga:
 ```php
+use Zevitagem\LegoAuth\Controllers\Raw\LoginRawNotSourceController;
 class LoginController extends LoginRawNotSourceController
 ```
 
-Em routes/login.php, ignore qualquer middleware:
+Em routes/login.php, o recomendável é ignorar qualquer middleware:
 ```php
 $class = new LoginController();
 $router = new Router($class, ['middlewares' => []]);
@@ -61,35 +71,40 @@ $router = new Router($class, ['middlewares' => []]);
 
 Em .env, defina:
 ```
-APP_URL=host.docker.internal:80/reason-schedule-app
+APP_URL=host.docker.internal:80/any_app
 PUBLIC_KEY=""
 PRIVATE_KEY=""
 AUTHORIZATION_APP_URL=host.docker.internal:8081/public/index.php
 AUTHORIZATION_PUBLIC_KEY=""
 ```
 
-> Atenção: Por enquanto, somente o Laravel e a RawSkeleton foram integrados, nada impede você de fazer um fork do projeto e criar versões para os demais frameworks ou ecossistemas :)
+> Atenção: Por enquanto, somente o Laravel e o RawSkeleton foram integrados, nada impede você de fazer um fork do projeto e criar versões para os demais frameworks ou ecossistemas :)
 
 ## Configuração de ambiente
 ```php
 return [
     'middlewares' => [
-        'auth_filler_middleware' => \Annacode\Middlewares\AuthFillerMiddleware::class,
-        'authenticable_middleware' => \Annacode\Middlewares\AuthenticateMiddleware::class,
+        'auth_filler_middleware' => \Zevitagem\LegoAuth\Middlewares\AuthFillerMiddleware::class,
+        'authenticable_middleware' => \Zevitagem\LegoAuth\Middlewares\AuthenticateMiddleware::class,
     ],
     'models' => [
-        //'application' => \Annacode\Models\Laravel\ApplicationL::class, case laravel
-        'application' => \Annacode\Models\Laravel\ApplicationR::class,
-        //'authorization' => \Annacode\Models\Laravel\AuthorizationL::class, case laravel
-        'authorization' => \Annacode\Models\Laravel\AuthorizationR::class, 
+        //'application' => \Zevitagem\LegoAuth\Models\Laravel\ApplicationL::class, case laravel
+        'application' => \Zevitagem\LegoAuth\Models\Laravel\ApplicationR::class,
+        //'authorization' => \Zevitagem\LegoAuth\Models\Laravel\AuthorizationL::class, case laravel
+        'authorization' => \Zevitagem\LegoAuth\Models\Laravel\AuthorizationR::class, 
         'user' => App\Models\User::class
     ],
-    'user_api' => \Annacode\Controllers\Api\UserApiController::class,
+    'user_api' => \Zevitagem\LegoAuth\Controllers\Api\UserApiController::class,
     'is_sourcer' => false,
     'is_laravel' => true,
     'route_group' => 'anc',
     'api_group' => 'api'
 ];
+```
+
+> Atenção: Caso opte por utilizar outras `models`, atente-se à interface esperada, principalmente o método:
+```php
+public function hydrate();
 ```
 
 ## Modelos para autenticacão flexível 
@@ -167,4 +182,4 @@ Existem algumas possibilidades de configurar seu ambiente de acordo com sua nece
 > saas_not_sourcer/public/home
 ---
 
-Falta ainda descrever os demais cenários ...
+Ainda falta descrever os demais cenários, prioridades, né? ...
