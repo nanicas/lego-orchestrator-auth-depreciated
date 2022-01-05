@@ -1,0 +1,24 @@
+{
+    "name": "zevitagem/lego-auth",
+    "type": "library",
+    "description": "Authentication Manager to any PHP application",
+    "keywords": ["authentication", "lego", "auth"],
+    "homepage": "https://github.com/zevitagem/lego-auth",
+    "license": "MIT",
+    "authors": [
+        {
+            "name": "José Victor da Silva",
+            "email": "josevictor.jvds@gmail.com",
+            "homepage": "https://www.linkedin.com/in/jos%C3%A9-victor-da-silva-b008a176/",
+            "role": "Developer"
+        }
+    ],
+    "require": {
+        "php": ">=7.4.*"
+    },
+    "autoload": {
+        "psr-4": {
+            "Zevitagem\\LegoAuth\\": "src/"
+        }
+    }
+}
