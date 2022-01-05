@@ -119,19 +119,19 @@ Existem algumas possibilidades de configurar seu ambiente de acordo com sua nece
 > Atenção: O nome "SAAS" foi usado como exemplo, poderia ser qualquer outro nome ou qualquer outro tipo de serviço/aplicação no momento de criar um `sourcer` ou `not sourcer`.
 
 ## Exemplo: SAAS ( `not sourcer` ) deslogado até o logged inself
-![alt text](https://github.com/zevitagem/lego-auth/blob/main/src/images/saas_not_sourced.png?raw=true&&s=100)
+![alt text](https://github.com/zevitagem/lego-auth/blob/main/src/Images/saas_not_sourced.png?raw=true&&s=100)
 
 ## Exemplo: SAAS ( `sourcer` ) deslogado até o logged inself
-![alt text](https://github.com/zevitagem/lego-auth/blob/main/src/images/saas_sourcer.png?raw=true&&s=100)
+![alt text](https://github.com/zevitagem/lego-auth/blob/main/src/Images/saas_sourcer.png?raw=true&&s=100)
 
 ## Exemplo: APPS finais ( `not sourcer` ) deslogado até o logged inself
-![alt text](https://github.com/zevitagem/lego-auth/blob/main/src/images/app_not_sourced.png?raw=true&&s=100)
+![alt text](https://github.com/zevitagem/lego-auth/blob/main/src/Images/app_not_sourced.png?raw=true&&s=100)
 
 ## Exemplo: SAAS ( `not sourcer` ) logado acessando um APP final
-![alt text](https://github.com/zevitagem/lego-auth/blob/main/src/images/saas_not_sourced_to_app.png?raw=true&&s=100)
+![alt text](https://github.com/zevitagem/lego-auth/blob/main/src/Images/saas_not_sourced_to_app.png?raw=true&&s=100)
 
 ## Exemplo: SAAS ( `sourcer` ) logado acessando um APP final
-![alt text](https://github.com/zevitagem/lego-auth/blob/main/src/images/saas_sourced_to_app.png?raw=true&&s=100)
+![alt text](https://github.com/zevitagem/lego-auth/blob/main/src/Images/saas_sourced_to_app.png?raw=true&&s=100)
 
 ---
 
