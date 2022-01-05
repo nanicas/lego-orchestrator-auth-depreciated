@@ -1,7 +1,7 @@
 {
     "name": "zevitagem/lego-auth",
     "type": "library",
-    "version": "1.0.0",
+    "version": "1.0.1",
     "description": "Authentication Manager to any PHP application",
     "keywords": ["authentication", "lego", "auth"],
     "homepage": "https://github.com/zevitagem/lego-auth",
