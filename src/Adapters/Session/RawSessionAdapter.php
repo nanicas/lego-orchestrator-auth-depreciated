@@ -5,6 +5,13 @@ namespace Zevitagem\LegoAuth\Adapters\Session;
 class RawSessionAdapter
 {
 
+    public function startSession()
+    {
+        if (session_status() === PHP_SESSION_NONE) {
+            session_start();
+        }
+    }
+    
     public function configureTempSessionData(array $data)
     {
         $_SESSION['current_auth']                      = $data['session_identifier'];

@@ -40,7 +40,7 @@ trait NavigateAsAppService
                     'action' => 'generateTokenByTemp']
         ]);
 
-        $response = Helper::extractJsonFromRequester($requestResponse);
+        $response = Helper::extractJsonFromRequester($requestResponse);//dd($response);
         $this->setResponse($response);
 
         if ($response['status'] == false) {
@@ -85,8 +85,8 @@ trait NavigateAsAppService
     public function generateSessionData(array $data)
     {
         $client          = new Client(['headers' => ['Authorization' => $data['token']]]);
-        $requestResponse = $client->request('GET', $data['own_api_url'].'/users/'.$data['user_id']);
-
+        $requestResponse = $client->request('GET', $data['own_internal_api_url'].'/users/'.$data['user_id']);
+        
         $response = Helper::extractJsonFromRequester($requestResponse);
         $this->setResponse($response);
 

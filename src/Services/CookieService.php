@@ -34,4 +34,10 @@ class CookieService implements PersistenceDataContract
     {
         return self::getAdapter()->readCookieValue("auth_refresh_token_{$identifier}");
     }
+
+    public static function eraseAll(array $sessionData)
+    {
+        $adapter = self::getAdapter();
+        $adapter->eraseCookieValue($sessionData);
+    }
 }

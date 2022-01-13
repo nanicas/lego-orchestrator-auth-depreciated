@@ -63,9 +63,7 @@ class Helper
 
     public static function sessionStart()
     {
-        if (session_status() === PHP_SESSION_NONE) {
-            session_start();
-        }
+        self::getSessionAdapter()->sessionStart();
     }
 
     public static function throwEvent(string $method, array $args)
@@ -105,6 +103,11 @@ class Helper
     public static function getGeneralAdapter()
     {
         return self::getAdapter(FactoryAdapter::GENERAL_TYPE);
+    }
+
+    public static function getSessionAdapter()
+    {
+        return self::getAdapter(FactoryAdapter::SESSION_TYPE);
     }
 
     public static function defaultExecutationToReplyJson(\Closure $callable)

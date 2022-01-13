@@ -13,7 +13,7 @@ trait NavigateAsAppController
 
     public function changeSessionByIdentifier()
     {
-        Helper::sessionStart();
+        Helper::getSessionAdapter()->startSession();
 
         $id = $_GET['id'];
         
@@ -29,7 +29,7 @@ trait NavigateAsAppController
 
     public function tryRegenerateToken()
     {
-        Helper::sessionStart();
+        Helper::getSessionAdapter()->startSession();
 
         $attempt = SessionService::getCurrentAttempt();
         if (SessionService::reachedMaxLoginAttempt($attempt)) {
@@ -63,8 +63,8 @@ trait NavigateAsAppController
 
     public function generateTokenByTemp()
     {
-        Helper::sessionStart();
-
+        Helper::getSessionAdapter()->startSession();
+        
         try {
             try {
                 SessionService::isLoggedByIdentifier($_GET['sessionId'] ?? '');

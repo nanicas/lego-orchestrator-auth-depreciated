@@ -106,7 +106,7 @@ class SessionService implements PersistenceDataContract
         self::isLogged();
 
         $auth = self::getAdapter()->readSessionValue('auth');
-        
+
         if (empty($auth)) {
             throw new NotAuthenticatedException();
         }
@@ -125,6 +125,12 @@ class SessionService implements PersistenceDataContract
         }
 
         return $auth[$id]['expire_at'] - (time() - $auth[$id]['created_at']);
+    }
+
+    public static function eraseAll(array $sessionData)
+    {
+        $adapter = self::getAdapter();
+        $adapter->eraseSessionValue();
     }
 
     public static function getCurrentData()

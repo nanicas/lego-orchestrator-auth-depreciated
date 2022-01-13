@@ -5,6 +5,11 @@ namespace Zevitagem\LegoAuth\Adapters\Session;
 class LaravelSessionAdapter
 {
 
+    public function startSession()
+    {
+        //Laravel already it injecting web middleware in all resquests from web.php
+    }
+
     public function configureTempSessionData(array $data)
     {
         $auths = session('auth') ?? [];
@@ -28,6 +33,11 @@ class LaravelSessionAdapter
             'is_logged' => $data['is_logged'],
             'auth' => $auths
         ]);
+    }
+
+    public function eraseSessionValue()
+    {
+        session()->forget(['current_auth', 'is_logged', 'auth']);
     }
 
     public function readSessionValue($key)

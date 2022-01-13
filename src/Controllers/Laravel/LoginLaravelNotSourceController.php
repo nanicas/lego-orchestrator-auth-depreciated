@@ -16,7 +16,7 @@ class LoginLaravelNotSourceController extends AbstractLoginLaravelController
     public function __construct()
     {
         parent::__construct();
-
+        
         $this->setService(new LoginNotSourceService());
     }
 }
