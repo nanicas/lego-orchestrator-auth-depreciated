@@ -129,6 +129,7 @@ trait NavigateAsAppService
             'expire_at' => $data['expire_at'],
             'own_url' => $data['own_url'],
             'own_api_url' => $data['own_api_url'],
+            'own_internal_api_url' => $data['own_internal_api_url'],
             'slug' => $data['slug'],
             'own_id' => $data['own_id'],
             'user' => $data['user'],

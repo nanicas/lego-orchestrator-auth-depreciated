@@ -61,9 +61,9 @@ class Helper
         return \Zevitagem\LegoAuth\Services\SessionService::isLogged();
     }
 
-    public static function sessionStart()
+    public static function startSession()
     {
-        self::getSessionAdapter()->sessionStart();
+        self::getSessionAdapter()->startSession();
     }
 
     public static function throwEvent(string $method, array $args)

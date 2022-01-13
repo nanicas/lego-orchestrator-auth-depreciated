@@ -21,6 +21,6 @@ class RawLoginAdapter
 
     public function beforeCheckedValidSession()
     {
-        Helper::sessionStart();
+        Helper::startSession();
     }
 }
