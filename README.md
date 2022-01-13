@@ -48,10 +48,10 @@ php artisan vendor:publish --tag=views
 
 Em .env, defina:
 ```
-APP_URL=host.docker.internal:8082/any_app
+APP_URL=host.any_app.internal:8082
 APP_ID=1
 APP_LOGIN_ROUTE=/public/login
-AUTHORIZATION_APP_URL=host.docker.internal:8081/public/index.php
+AUTHORIZATION_APP_URL=host.auth.internal:8081/public/index.php
 AUTHORIZATION_PUBLIC_KEY=""
 PUBLIC_KEY=""
 PRIVATE_KEY=""
@@ -60,7 +60,10 @@ PRIVATE_KEY=""
 ### Se for Raw (aplicação crua, geralmente usada para ser um APP FINAL), siga:
 ```php
 use Zevitagem\LegoAuth\Controllers\Raw\LoginRawNotSourceController;
+use Zevitagem\LegoAuth\Controllers\Raw\LogoutRawNotSourceController;
+
 class LoginController extends LoginRawNotSourceController
+class LogoutController extends LogoutRawNotSourceController
 ```
 
 Em routes/login.php, o recomendável é ignorar qualquer middleware:
@@ -71,10 +74,10 @@ $router = new Router($class, ['middlewares' => []]);
 
 Em .env, defina:
 ```
-APP_URL=host.docker.internal:80/any_app
+APP_URL=host.any_app.internal:8080
 PUBLIC_KEY=""
 PRIVATE_KEY=""
-AUTHORIZATION_APP_URL=host.docker.internal:8081/public/index.php
+AUTHORIZATION_APP_URL=host.auth.internal:8081/public/index.php
 AUTHORIZATION_PUBLIC_KEY=""
 ```
 
@@ -183,5 +186,3 @@ Existem algumas possibilidades de configurar seu ambiente de acordo com sua nece
 ---
 
 Ainda falta descrever os demais cenários, prioridades, né? --' ...
-
-teste update

@@ -11,7 +11,7 @@
                             ?>
                             <div class="card">
                                 <div class="card-body">
-                                    <a href="<?= $app->getLoginRoute() ?>"><?= $app->getName() ?></a>
+                                    <a href="{{ $app->getLoginRoute().'?'.\Zevitagem\LegoAuth\Helpers\Helper::createBuildQueryToOutLogin() }}">{{ $app->getName() }}</a>
                                 </div>
                             </div>
                             <?php

@@ -11,7 +11,7 @@ class RawSessionAdapter
             session_start();
         }
     }
-    
+
     public function configureTempSessionData(array $data)
     {
         $_SESSION['current_auth']                      = $data['session_identifier'];
@@ -27,6 +27,13 @@ class RawSessionAdapter
             'user' => $data['user'],
             'created_at' => $data['created_at']
         ];
+    }
+
+    public function eraseSessionValue()
+    {
+        unset($_SESSION["current_auth"]);
+        unset($_SESSION["is_logged"]);
+        unset($_SESSION["auth"]);
     }
 
     public function changeTempSessionDataByIdentifier(array $data)

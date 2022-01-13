@@ -24,6 +24,21 @@ class RawCookieAdapter
         );
     }
 
+    public function eraseCookieValue(array $sessionData)
+    {
+        unset($_COOKIE['current_auth']);
+        setcookie('current_auth', '', time() - 3600);
+
+        $authKeys = array_keys($sessionData['auth']);
+
+        foreach ($authKeys as $key) {
+            $tempKey = "auth_refresh_token.{$key}";
+
+            unset($_COOKIE[$tempKey]);
+            setcookie($tempKey, '', time() - 3600);
+        }
+    }
+
     public function readCookieValue($key)
     {
         return $_COOKIE[$key] ?? null;
@@ -31,6 +46,10 @@ class RawCookieAdapter
 
     public function changeContinuousDataByIdentifier(array $data)
     {
-        setcookie("current_auth", $data['session_identifier'], $data['expire_at'], $data['path']);
+        setcookie("current_auth",
+            $data['session_identifier'],
+            $data['expire_at'],
+            $data['path']
+        );
     }
 }
