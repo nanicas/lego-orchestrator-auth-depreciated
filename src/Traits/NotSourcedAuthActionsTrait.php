@@ -8,7 +8,7 @@ use Zevitagem\LegoAuth\Adapters\FactoryAdapter;
 trait NotSourcedAuthActionsTrait
 {
     public function showLoginForm()
-    {  //dd(session()->all());
+    {
         if (Helper::existsTempAuthInUrl()) {
             return $this->generateTokenByTemp();
         }

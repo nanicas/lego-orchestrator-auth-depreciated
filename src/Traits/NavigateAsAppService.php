@@ -40,7 +40,7 @@ trait NavigateAsAppService
                     'action' => 'generateTokenByTemp']
         ]);
 
-        $response = Helper::extractJsonFromRequester($requestResponse);//dd($response);
+        $response = Helper::extractJsonFromRequester($requestResponse);
         $this->setResponse($response);
 
         if ($response['status'] == false) {
