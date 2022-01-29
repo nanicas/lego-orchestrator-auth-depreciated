@@ -23,7 +23,7 @@ abstract class AbstractLoginLaravelController extends AbstractAuthLaravelControl
 
     public function generateTempAuthInSourcer()
     {
-        $data = $this->authorizationService->generateTempAuthInSourcer();
+        $data = $this->getAuthorizationService()->generateTempAuthInSourcer();
 
         echo json_encode($data);
     }

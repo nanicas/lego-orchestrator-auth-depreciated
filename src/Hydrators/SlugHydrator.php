@@ -9,12 +9,16 @@ class SlugHydrator
 
     public function getModel()
     {
-        $model = Helper::readConfig()['models']['slug'];
-        return new $model();
+        return Helper::readConfig()['models']['slug'];
     }
 
     public function hydrateArray(array $data)
     {
-        return $this->getModel()->hydrate($data);
+        return (new $this->getModel())->hydrate($data);
+    }
+
+    public function hydrate(array $data)
+    {
+        return new (self::getModel())($data);
     }
 }

@@ -7,8 +7,8 @@ use Zevitagem\LegoAuth\Services\AbstractService;
 abstract class AbstractLoginService extends AbstractService
 {
 
-    public function getDataOnShowLogin()
-    {
-        return [];
-    }
+//    public function getDataOnShowLogin()
+//    {
+//        return [];
+//    }
 }

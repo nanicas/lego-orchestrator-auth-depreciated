@@ -20,6 +20,7 @@ class SlugL extends AbstractLaravelModel
      * @var string[]
      */
     protected $fillable = [
+        'id',
         'app_id',
         'name',
         'slug'

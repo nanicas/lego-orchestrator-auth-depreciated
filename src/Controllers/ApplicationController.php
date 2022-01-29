@@ -3,7 +3,7 @@
 namespace Zevitagem\LegoAuth\Controllers;
 
 use Zevitagem\LegoAuth\Helpers\Helper;
-use Zevitagem\LegoAuth\Services\ApplicationService;
+use Zevitagem\LegoAuth\Services\SlugService;
 use Illuminate\Http\Request;
 use Zevitagem\LegoAuth\Traits\AvailabilityWithView;
 
@@ -22,7 +22,7 @@ class ApplicationController
         $route = $request->query('login_route');
 
         try {
-            $service = new ApplicationService();
+            $service = new SlugService();
             $slugs   = $service->getSlugsByApplication($request->route('app'));
             $status  = true;
             $message = '';
