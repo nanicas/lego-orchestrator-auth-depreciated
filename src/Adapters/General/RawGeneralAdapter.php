@@ -9,9 +9,10 @@ class RawGeneralAdapter extends AbstractGeneralAdapter
 
     public function loadView(string $path, array $data)
     {
-        $this->incrementExtensionFiles($path);
-
+        $path = str_replace('.', '/', $path);
         $path = parent::getViewPath().'/'.$path;
+
+        $this->incrementExtensionFiles($path);
 
         return includeWithVariables(view($path), $data);
     }
@@ -19,7 +20,7 @@ class RawGeneralAdapter extends AbstractGeneralAdapter
     public function getLoginRoute()
     {
         $login = env('APP_LOGIN_ROUTE') ?? '/routes/login.php';
-        return env('APP_URL') . $login;
+        return env('APP_URL').$login;
     }
 
     public function setFlash($key, $value)

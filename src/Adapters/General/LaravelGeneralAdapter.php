@@ -15,8 +15,6 @@ class LaravelGeneralAdapter extends AbstractGeneralAdapter
         if (strpos($path, $prefix) === false) {
             $path = $prefix.'::'.$path;
         }
-        //dd($path);
-        //$path = 'anc::outsourced_login.blade';
 
         return view($path, $data);
     }
