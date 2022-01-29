@@ -15,7 +15,7 @@ class Helper
 
         return http_build_query(array_merge([
             'url_callback' => $adapter->getLoginRoute()
-        ], $args));
+        ], ...$args));
     }
 
     public static function getPackage()
