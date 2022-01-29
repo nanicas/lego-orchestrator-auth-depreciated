@@ -3,22 +3,13 @@
 namespace Zevitagem\LegoAuth\Hydrators;
 
 use Zevitagem\LegoAuth\Helpers\Helper;
+use Zevitagem\LegoAuth\Hydrators\AbstractHydrator;
 
-class SlugHydrator
+class SlugHydrator extends AbstractHydrator
 {
 
-    public function getModel()
+    public function getModel(): string
     {
         return Helper::readConfig()['models']['slug'];
-    }
-
-    public function hydrateArray(array $data)
-    {
-        return (new $this->getModel())->hydrate($data);
-    }
-
-    public function hydrate(array $data)
-    {
-        return new (self::getModel())($data);
     }
 }

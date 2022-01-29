@@ -64,8 +64,34 @@
                                 @endif
                             </div>
                         </div>
+
                         <input type="hidden" name="url_callback" value="<?= $_GET['url_callback'] ?? ''?>"/>
-                        <input type="hidden" name="slug" value="<?= $_GET['slug'] ?? ''?>"/>
+                        <hr>
+
+                        <div id='slugs-box'>
+                            @php
+                                $totalSlugs = $slugs->count();
+                                $uniqueSlug = ($totalSlugs == 1);
+                            @endphp
+
+                            <div class="@error('slug') is-invalid @enderror">
+                                @if($slugs->count() > 0)
+                                    <ul class="list-group">
+                                        @foreach($slugs as $slug)
+                                            <li class="list-group-item"><input {{ ($uniqueSlug) ? 'checked' : '' }} type="radio" name="slug" value="{{ $slug->getId() }}"/> [{{ $slug->getName() }}]</li>
+                                        @endforeach
+                                    </ul>
+                                @else
+                                    <div class='alert alert-warning'>Nenhuma especialidade para essa aplicação foi encontrada, infelizmente.</div>
+                                @endif
+                            </div>
+
+                            @error('slug')
+                                <span class="invalid-feedback" role="alert">
+                                    <strong>{{ $message }}</strong>
+                                </span>
+                            @enderror
+                        </div>
                     </form>
                 </div>
             </div>
