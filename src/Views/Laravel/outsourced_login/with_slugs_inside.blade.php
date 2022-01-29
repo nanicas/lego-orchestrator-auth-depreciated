@@ -11,18 +11,18 @@
 
                 <div class="card-body" id="applications-box">
                     @if(!empty($applications))
-                    @foreach($applications as $app)
-                    <div class="card">
-                        <div class="card-body">
-                            <a class="application"
-                               href="{{ route('slugs', [
-                                           'app' => $app->getId(),
-                                           'login_route' => $app->getLoginRoute()]) }}">{{ $app->getName() }}</a>
+                        @foreach($applications as $app)
+                        <div class="card">
+                            <div class="card-body">
+                                <a class="application"
+                                   href="{{ route('slugs', [
+                                               'app' => $app->getId(),
+                                               'login_route' => $app->getLoginRoute()]) }}">{{ $app->getName() }}</a>
 
-                            <div class="content-slugs"></div>
+                                <div class="content-slugs"></div>
+                            </div>
                         </div>
-                    </div>
-                    @endforeach
+                        @endforeach
                     @endif
                 </div>
             </div>

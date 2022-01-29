@@ -14,5 +14,6 @@ return [
     'is_sourcer' => false,
     'is_laravel' => true,
     'package' => 'anc',
-    'api_group' => 'api'
+    'api_group' => 'api',
+    'slugs_inside' => false
 ];

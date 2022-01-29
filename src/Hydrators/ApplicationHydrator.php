@@ -10,7 +10,6 @@ class ApplicationHydrator extends AbstractHydrator
 
     public function getModel(): string
     {
-        $model = Helper::readConfig()['models']['application'];
-        return new $model();
+        return Helper::readConfig()['models']['application'];
     }
 }
