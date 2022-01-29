@@ -17,6 +17,7 @@ class LaravelGeneralAdapter extends AbstractGeneralAdapter
         }
         //dd($path);
         //$path = 'anc::outsourced_login.blade';
+
         return view($path, $data);
     }
 

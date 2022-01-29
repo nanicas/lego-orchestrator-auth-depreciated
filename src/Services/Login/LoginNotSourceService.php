@@ -14,7 +14,9 @@ class LoginNotSourceService extends AbstractLoginService
 
     public function getDataOnShowLogin()
     {
-        $service      = new ApplicationService(new ApplicationRemoverItself());
+        $service = new ApplicationService();
+        $service->setFilter(new ApplicationRemoverItself());
+        
         $applications = $service->getAllowedApplicationsToLogin();
 
         return compact('applications');

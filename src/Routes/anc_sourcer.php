@@ -5,6 +5,7 @@ use Illuminate\Support\Facades\Route;
 use App\Models\Application;
 use Zevitagem\LegoAuth\Helpers\Helper;
 use Zevitagem\LegoAuth\Controllers\AuthorizationController;
+use Zevitagem\LegoAuth\Controllers\ApplicationController;
 use App\Http\Controllers\Auth\LoginController;
 
 /*
@@ -28,7 +29,7 @@ Route::get('/applications',
 $ancConfig = Helper::readConfig();
 $ancMiddlewares = $ancConfig['middlewares'];
 
-Route::prefix($ancConfig['route_group'])->group(function () use ($ancConfig, $ancMiddlewares) {
+Route::prefix($ancConfig['package'])->group(function () use ($ancConfig, $ancMiddlewares) {
 
     Route::prefix($ancConfig['api_group'])
         ->middleware([$ancMiddlewares['authenticable_middleware']])
@@ -60,6 +61,6 @@ Route::prefix($ancConfig['route_group'])->group(function () use ($ancConfig, $an
         });
     });
 
-    Route::post('/authorization/verify',
-        [AuthorizationController::class, 'verify']);
+    Route::post('/authorization/verify', [AuthorizationController::class, 'verify']);
+    Route::get('/application/{app}/slugs', [ApplicationController::class, 'slugs'])->name('slugs');
 });

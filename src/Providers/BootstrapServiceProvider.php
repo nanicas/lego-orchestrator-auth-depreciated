@@ -3,9 +3,11 @@
 namespace Zevitagem\LegoAuth\Providers;
 
 use Illuminate\Support\ServiceProvider;
+use Zevitagem\LegoAuth\Helpers\Helper;
 
 class BootstrapServiceProvider extends ServiceProvider
 {
+
     /**
      * Bootstrap the application services.
      *
@@ -13,17 +15,24 @@ class BootstrapServiceProvider extends ServiceProvider
      */
     public function boot()
     {
-        $this->publishes([
-            app_path('/Libraries/Annacode/Migrations') => database_path('migrations'),
-        ], 'migrations');
+        $package = Helper::getPackage();
+        $src     = base_path('vendor/zevitagem/lego-auth/src');
 
         $this->publishes([
-            app_path('/Libraries/Annacode/Routes') => base_path('routes'),
-        ], 'routes');
+            $src.'/Migrations' => database_path('migrations'),
+            ], 'migrations');
 
         $this->publishes([
-            app_path('/Libraries/Annacode/Views/Laravel') => resource_path('views/vendor/anc'),
-        ], 'views');
+            $src.'/Routes' => base_path('routes'),
+            ], 'routes');
+
+        $this->publishes([
+            $src.'/Views/Laravel' => resource_path('views/vendor/'.$package),
+            ], 'views');
+
+        $this->publishes([
+            $src.'/Assets' => public_path('vendor/'.$package),
+            ], 'assets');
     }
 
     /**

@@ -3,15 +3,15 @@
 namespace Zevitagem\LegoAuth\Controllers\Laravel;
 
 use App\Http\Controllers\Controller;
-use Illuminate\Support\Facades\View;
 use Zevitagem\LegoAuth\Traits\AvailabilityWithService;
-use Zevitagem\LegoAuth\Adapters\General\LaravelGeneralAdapter;
 use Zevitagem\LegoAuth\Services\AuthorizationService;
+use Zevitagem\LegoAuth\Traits\AvailabilityWithView;
 
 abstract class AbstractAuthLaravelController extends Controller
 {
 
-    use AvailabilityWithService;
+    use AvailabilityWithService,
+        AvailabilityWithView;
     
     protected $authorizationService;
 
@@ -19,10 +19,7 @@ abstract class AbstractAuthLaravelController extends Controller
     {
         $this->authorizationService = new AuthorizationService();
 
-        View::addNamespace(
-            LaravelGeneralAdapter::getViewPrefix(),
-            resource_path('views/'.LaravelGeneralAdapter::getViewPath())
-        );
+        $this->addViewNamespace();
     }
 
     public function getAuthorizationService()

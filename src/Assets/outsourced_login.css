@@ -1,0 +1,6 @@
+.content-slugs .card-body {
+    padding: 5px;
+    display: inline-block;
+    text-align: center;
+    background-color: #ccc;
+}

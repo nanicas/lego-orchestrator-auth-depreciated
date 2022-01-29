@@ -11,10 +11,18 @@ class Helper
     public static function createBuildQueryToOutLogin(): string
     {
         $adapter = self::getGeneralAdapter();
+        $args = func_get_args();
 
-        return http_build_query([
+        return http_build_query(array_merge([
             'url_callback' => $adapter->getLoginRoute()
-        ]);
+        ], $args));
+    }
+
+    public static function getPackage()
+    {
+        $config = self::readConfig();
+
+        return $config['package'] ?? 'anc';
     }
 
     public static function getAppId()

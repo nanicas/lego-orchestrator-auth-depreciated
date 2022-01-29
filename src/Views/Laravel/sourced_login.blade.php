@@ -65,7 +65,7 @@
                             </div>
                         </div>
                         <input type="hidden" name="url_callback" value="<?= $_GET['url_callback'] ?? ''?>"/>
-                        <input type="hidden" name="slug" value="1"/>
+                        <input type="hidden" name="slug" value="<?= $_GET['slug'] ?? ''?>"/>
                     </form>
                 </div>
             </div>

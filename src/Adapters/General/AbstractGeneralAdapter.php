@@ -2,18 +2,28 @@
 
 namespace Zevitagem\LegoAuth\Adapters\General;
 
+use Zevitagem\LegoAuth\Helpers\Helper;
+
 abstract class AbstractGeneralAdapter
 {
-    const VIEW_PREFIX = 'anc';
-    const VIEW_PATH   = 'vendor/'.self::VIEW_PREFIX;
+
+    public static function getPrefix()
+    {
+        return Helper::getPackage();
+    }
 
     public static function getViewPrefix()
     {
-        return self::VIEW_PREFIX;
+        return self::getPrefix();
     }
 
     public static function getViewPath()
     {
-        return self::VIEW_PATH;
+        return 'vendor/'.self::getViewPrefix();
+    }
+
+    public static function getAssetsPath()
+    {
+        return 'vendor/'.self::getViewPrefix();
     }
 }
