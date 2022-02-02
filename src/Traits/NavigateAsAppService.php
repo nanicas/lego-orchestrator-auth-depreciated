@@ -17,7 +17,6 @@ trait NavigateAsAppService
 {
 
     use ResponseTrait;
-
     private $config;
     private $user;
     private $userService;
@@ -26,19 +25,22 @@ trait NavigateAsAppService
 
     public function __construct()
     {
-        $this->config = new LoginConfig();
+        $this->config            = new LoginConfig();
         $this->continuousStorage = PersistenceDataFactory::continuous();
-        $this->tempStorage = PersistenceDataFactory::temp();
+        $this->tempStorage       = PersistenceDataFactory::temp();
     }
 
     public function tryGenerateAccessToken(array $data)
     {
-        $client          = new Client(['base_uri' => $this->config->getUrl()]);
+        $client = new Client(['base_uri' => $this->config->getUrl()]);
         $requestResponse = $client->request('GET', '',
-            ['query' => [
+            [
+                'query' => [
                     'token' => $data['token'],
-                    'action' => 'generateTokenByTemp']
-        ]);
+                    'action' => 'generateTokenByTemp'
+                ]
+            ]
+        );
 
         $response = Helper::extractJsonFromRequester($requestResponse);
         $this->setResponse($response);
@@ -59,18 +61,24 @@ trait NavigateAsAppService
             throw new CurrentAuthNotFoundException('Não foi possível encontrar os dados mínimos para gerar um novo acesso');
         }
 
-        $refreshToken          = Helper::decryptDifferentiated($refreshTokenEncrypted,
-                env('PRIVATE_KEY'));
-        $refreshTokenEncrypted = Helper::encryptDifferentiated($refreshToken,
-                env('AUTHORIZATION_PUBLIC_KEY'));
+        $refreshToken          = Helper::decryptDifferentiated(
+            $refreshTokenEncrypted,
+            env('PRIVATE_KEY')
+        );
+        
+        $refreshTokenEncrypted = Helper::encryptDifferentiated(
+            $refreshToken,
+            env('AUTHORIZATION_PUBLIC_KEY')
+        );
 
-        $client          = new Client(['base_uri' => $this->config->getUrl()]);
+        $client = new Client(['base_uri' => $this->config->getUrl()]);
         $requestResponse = $client->request('POST', '?action=generateTokenByRefresh',
             [
                 'form_params' => [
                     'refresh_access' => $refreshTokenEncrypted
                 ]
-        ]);
+            ]
+        );
 
         $response = Helper::extractJsonFromRequester($requestResponse);
         $this->setResponse($response);
@@ -84,9 +92,11 @@ trait NavigateAsAppService
 
     public function generateSessionData(array $data)
     {
-        $client          = new Client(['headers' => ['Authorization' => $data['token']]]);
-        $requestResponse = $client->request('GET', $data['own_internal_api_url'].'/users/'.$data['user_id']);
-        
+        $client = new Client(['headers' => ['Authorization' => $data['token']]]);
+        $requestResponse = $client->request('GET',
+            $data['authenticator']['internal_api_url'].'/users/'.$data['user_id']
+        );
+
         $response = Helper::extractJsonFromRequester($requestResponse);
         $this->setResponse($response);
 
@@ -99,7 +109,7 @@ trait NavigateAsAppService
     }
 
     public function changeSessionByIdentifier(string $identifier)
-    { 
+    {
         $tempStorageAdapter = $this->tempStorage::getAdapter();
         $tempStorageAdapter->changeTempSessionDataByIdentifier([
             'session_identifier' => $identifier
@@ -118,7 +128,7 @@ trait NavigateAsAppService
     public function configureSession(array $data)
     {
         $sessionIdentifier = Helper::generateUniqueSessionIdentifier(
-                $data['own_id'], $data['slug'], $data['user_id']
+                $data['authenticator']['id'], $data['slug'], $data['user_id']
         );
 
         $tempStorageAdapter = $this->tempStorage::getAdapter();
@@ -127,11 +137,9 @@ trait NavigateAsAppService
             'session_identifier' => $sessionIdentifier,
             'token' => $data['token'],
             'expire_at' => $data['expire_at'],
-            'own_url' => $data['own_url'],
-            'own_api_url' => $data['own_api_url'],
-            'own_internal_api_url' => $data['own_internal_api_url'],
+            'authenticator' => $data['authenticator'],
+            'requester' => $data['requester'],
             'slug' => $data['slug'],
-            'own_id' => $data['own_id'],
             'user' => $data['user'],
             'created_at' => time()
         ]);
@@ -146,5 +154,4 @@ trait NavigateAsAppService
             ),
         ]);
     }
-
 }

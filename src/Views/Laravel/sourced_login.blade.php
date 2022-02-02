@@ -66,6 +66,7 @@
                         </div>
 
                         <input type="hidden" name="url_callback" value="<?= $_GET['url_callback'] ?? ''?>"/>
+                        <input type="hidden" name="app_requester_id" value="<?= $_GET['app_requester_id'] ?? ''?>"/>
                         <hr>
 
                         <div id='slugs-box'>

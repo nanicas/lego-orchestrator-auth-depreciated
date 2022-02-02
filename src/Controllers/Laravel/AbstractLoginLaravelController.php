@@ -8,6 +8,7 @@ use Zevitagem\LegoAuth\Traits\AuthActionsTrait;
 use Illuminate\Http\Request;
 use Zevitagem\LegoAuth\Services\SessionService;
 use Zevitagem\LegoAuth\Services\AuthenticationService;
+use Zevitagem\LegoAuth\Helpers\Helper;
 
 abstract class AbstractLoginLaravelController extends AbstractAuthLaravelController
 {
@@ -23,9 +24,9 @@ abstract class AbstractLoginLaravelController extends AbstractAuthLaravelControl
 
     public function generateTempAuthInSourcer()
     {
-        $data = $this->getAuthorizationService()->generateTempAuthInSourcer();
-
-        echo json_encode($data);
+        Helper::defaultExecutationToReplyJson(function () {
+            return $this->getAuthorizationService()->generateTempAuthInSourcer();
+        });
     }
 
     abstract public function showLoginForm();

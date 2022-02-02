@@ -19,10 +19,10 @@ class AuthorizationService extends AbstractService
         $this->setRepository(new AuthorizationRepository());
     }
 
-    public function getTempAuth($user, $slug)
+    public function getTempAuth($user, $slug, $requesterAppId)
     {
         $userId = $user->id;
-        $owdId  = Helper::getAppId();
+        $authenticatorAppId  = Helper::getAppId();
 
         $authorization          = $this->getRepository()->getModel();
         $authorization->code    = uniqid();
@@ -34,7 +34,8 @@ class AuthorizationService extends AbstractService
         $encryptToSend = Helper::encryptDifferentiated(json_encode([
                 'user_id' => $userId,
                 'authorization_code' => $authorization->code,
-                'app_own_id' => $owdId,
+                'app_authenticator_id' => $authenticatorAppId,
+                'app_requester_id' => $requesterAppId,
                 'slug' => $slug
                 ]), env('AUTHORIZATION_PUBLIC_KEY'));
 
@@ -52,8 +53,9 @@ class AuthorizationService extends AbstractService
 
         $params = http_build_query([
             'token' => $response['response']['token'],
-            'sessionId' => Helper::generateUniqueSessionIdentifier($owdId,
-                $slug, $userId)
+            'sessionId' => Helper::generateUniqueSessionIdentifier(
+                $authenticatorAppId, $slug, $userId
+            )
         ]);
 
         return [
@@ -70,14 +72,14 @@ class AuthorizationService extends AbstractService
             'headers' => ['Authorization' => $session['token']]
         ]);
 
-        $response          = $client->post($session['own_internal_api_url'].'/login/generateTempAuthByToken');
+        $response          = $client->post($session['authenticator']['internal_api_url'].'/login/generateTempAuthByToken');
         $extractedResponse = Helper::extractJsonFromRequester($response);
 
         if ($extractedResponse['status'] === false) {
             throw new ImpossibilityGenerateTokenByTokenException($extractedResponse['response']['message']);
         }
 
-        return $extractedResponse;
+        return $extractedResponse['response'];
     }
 
     public function getTempAuthByState(array $state)
@@ -91,7 +93,7 @@ class AuthorizationService extends AbstractService
             throw new NotFoundInDatabaseException();
         }
 
-        return $this->getTempAuth($user, $state['slug']);
+        return $this->getTempAuth($user, $state['slug'], $state['app_requester_id']);
     }
 
     public function checkIfExistsCode(string $data)

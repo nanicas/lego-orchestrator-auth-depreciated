@@ -18,10 +18,8 @@ class LaravelSessionAdapter
                 $data['session_identifier'] => [
                     'token' => $data['token'],
                     'expire_at' => $data['expire_at'],
-                    'own_url' => $data['own_url'],
-                    'own_api_url' => $data['own_api_url'],
-                    'own_internal_api_url' => $data['own_internal_api_url'],
-                    'own_id' => $data['own_id'],
+                    'authenticator' => $data['authenticator'],
+                    'requester' => $data['requester'],
                     'slug' => $data['slug'],
                     'user' => $data['user'],
                     'created_at' => $data['created_at']

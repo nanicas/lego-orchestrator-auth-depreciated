@@ -14,7 +14,8 @@ class Helper
         $args = func_get_args();
 
         return http_build_query(array_merge([
-            'url_callback' => $adapter->getLoginRoute()
+            'url_callback' => $adapter->getLoginRoute(),
+            'app_requester_id' => self::getAppId()
         ], ...$args));
     }
 

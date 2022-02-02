@@ -17,7 +17,7 @@ trait AuthActionsTrait
         }
 
         $this->authenticateData = $this->getAuthorizationService()->getTempAuth(
-            $user, $_POST['slug']
+            $user, $_POST['slug'], $_POST['app_requester_id']
         );
 
         Auth::logout();
@@ -39,6 +39,11 @@ trait AuthActionsTrait
             return;
         }
 
-        return $_POST['url_callback'].'?'.$this->authenticateData['params'];
+        $end = $this->authenticateData['params'] ?? '';
+        if ($this->authenticateData['status'] == false) {
+            $end = 'message='.json_encode($this->authenticateData['response']['message']);
+        }
+
+        return $_POST['url_callback'].'?'.$end;
     }
 }

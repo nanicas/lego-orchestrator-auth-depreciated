@@ -28,8 +28,7 @@ class SessionService implements PersistenceDataContract
             $list[] = [
                 'identifier' => $key,
                 'name' => $session['user']['name'],
-                'own_url' => $session['own_url'],
-                //'own_id' => $session['user']['own_id']
+                'authenticator_url' => $session['authenticator']['url']
             ];
         }
 

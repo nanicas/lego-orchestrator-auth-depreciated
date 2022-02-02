@@ -18,8 +18,10 @@ class AuthenticateMiddleware
         $header = getallheaders()['Authorization'];
 
         if (empty($header)) {
-            echo json_encode(Helper::createDefaultJsonToResponse(false,
-                    ['message' => 'authorization_was_not_sent']));
+            echo json_encode(
+                Helper::createDefaultJsonToResponse(false,
+                ['message' => 'authorization_was_not_sent'])
+            );
             exit();
         }
 
