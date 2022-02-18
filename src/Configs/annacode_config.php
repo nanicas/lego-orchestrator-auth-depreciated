@@ -11,9 +11,13 @@ return [
         'user' => App\Models\User::class
     ],
     'user_api' => Zevitagem\LegoAuth\Controllers\Api\UserApiController::class,
+    'config_user_api' => \Zevitagem\LegoAuth\Controllers\Api\ConfigUserApiController::class,
     'is_sourcer' => false,
     'is_laravel' => true,
     'package' => 'anc',
     'api_group' => 'api',
-    'slugs_inside' => false
+    'slugs_inside' => false,
+    'pages' => [
+        'user_config' => true
+    ]
 ];

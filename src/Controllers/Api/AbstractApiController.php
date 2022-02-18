@@ -21,6 +21,11 @@ class AbstractApiController extends Controller
     {
         Helper::defaultExecutationToReplyJson(function () use ($name, $arguments) {
             $service = $this->getService();
+
+//            if (!method_exists($service, $name)) {
+//                throw new \InvalidArgumentException("The route/action {$name} don't exists in service");
+//            }
+
             return $service->{$name}(...$arguments);
         });
     }

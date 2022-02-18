@@ -19,6 +19,20 @@ class Helper
         ], ...$args));
     }
 
+    public static function isLaravel()
+    {
+        $config = self::readConfig();
+
+        return (!empty($config['is_laravel']));
+    }
+
+    public static function hasPage(string $page): bool
+    {
+        $config = self::readConfig();
+
+        return (isset($config['pages'][$page]) && $config['pages'][$page] === true);
+    }
+
     public static function getPackage()
     {
         $config = self::readConfig();
@@ -58,11 +72,13 @@ class Helper
         return $encrypted;
     }
 
-    public static function generateUniqueSessionIdentifier(int $ownId,
-                                                           string $slug,
-                                                           int $userId)
+    public static function generateUniqueSessionIdentifier(
+        int $appId,
+        int $slug,
+        int $userId
+    )
     {
-        return hash("crc32", "$ownId-$slug-$userId}");
+        return hash("crc32", "$appId-$slug-$userId}");
     }
 
     public static function isLogged()
@@ -149,7 +165,7 @@ class Helper
     {
         $config = self::readConfig();
 
-        if ($config['is_sourcer'] == false ) {
+        if ($config['is_sourcer'] == false) {
             $middlewares[] = $config['middlewares']['auth_filler_middleware'];
         }
 

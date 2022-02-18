@@ -41,6 +41,10 @@ Route::prefix($ancConfig['package'])->group(function () use ($ancConfig, $ancMid
             Route::prefix('/users')->group(function () use ($ancConfig) {
                 Route::get('/{id}', [$ancConfig['user_api'], 'find']);
             });
+
+            Route::prefix('/config_users')->group(function () use ($ancConfig) {
+                Route::get('/{userId}/{slug}', [$ancConfig['config_user_api'], 'getByUserAndSlug']);
+            });
     });
 
     Route::middleware(['web'])->group(function () {

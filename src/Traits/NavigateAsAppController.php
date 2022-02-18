@@ -74,6 +74,12 @@ trait NavigateAsAppController
 
                 $sessionData = $service->generateSessionData($service->getResponse()['response']);
                 $service->configureSession($sessionData);
+
+                if (Helper::isLaravel() 
+                    && Helper::hasPage('user_config')
+                    && $sessionData['user']['config'] === null) {
+                    return Helper::getLoginAdapter()->redirUserConfigPage();
+                }
             }
 
             return Helper::getLoginAdapter()->redirSuccessfully();

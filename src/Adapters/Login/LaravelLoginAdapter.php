@@ -15,6 +15,11 @@ class LaravelLoginAdapter
     {
         return redirect()->route(str_replace('/', '', RouteServiceProvider::HOME));
     }
+    
+    public function redirUserConfigPage()
+    {
+        return redirect()->route(str_replace('/', '', RouteServiceProvider::USER_CONFIG));
+    }
 
     public function afterCheckedValidSession()
     {

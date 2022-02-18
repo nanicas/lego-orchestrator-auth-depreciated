@@ -6,12 +6,12 @@ use Zevitagem\LegoAuth\Services\Login\LoginConfig;
 use Zevitagem\LegoAuth\Exceptions\CurrentAuthNotFoundException;
 use Zevitagem\LegoAuth\Exceptions\ImpossibilityRegenerateTokenException;
 use Zevitagem\LegoAuth\Exceptions\ImpossibilityToValidateTempTokenException;
-use Zevitagem\LegoAuth\Exceptions\ImpossibilityToGetUserDataException;
 use Zevitagem\LegoAuth\Services\SessionService;
 use Zevitagem\LegoAuth\Traits\ResponseTrait;
 use GuzzleHttp\Client;
 use Zevitagem\LegoAuth\Helpers\Helper;
 use Zevitagem\LegoAuth\Factories\PersistenceDataFactory;
+use Zevitagem\LegoAuth\UseCase\UserDataToSession;
 
 trait NavigateAsAppService
 {
@@ -92,19 +92,11 @@ trait NavigateAsAppService
 
     public function generateSessionData(array $data)
     {
-        $client = new Client(['headers' => ['Authorization' => $data['token']]]);
-        $requestResponse = $client->request('GET',
-            $data['authenticator']['internal_api_url'].'/users/'.$data['user_id']
-        );
+        $service = new UserDataToSession($data);
+        
+        $data['user'] = $service->getUser();
+        $data['user']['config'] = $service->getConfigUser();
 
-        $response = Helper::extractJsonFromRequester($requestResponse);
-        $this->setResponse($response);
-
-        if ($response['status'] == false) {
-            throw new ImpossibilityToGetUserDataException($response['response']['message']);
-        }
-
-        $data['user'] = $response['response'];
         return $data;
     }
 
