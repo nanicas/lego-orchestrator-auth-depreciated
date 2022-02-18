@@ -100,7 +100,8 @@ return [
         'application' => \Zevitagem\LegoAuth\Models\Laravel\ApplicationL::class, // or ApplicationR
         'authorization' => \Zevitagem\LegoAuth\Models\Laravel\AuthorizationL::class, // or AuthorizationR
         'slug' => \Zevitagem\LegoAuth\Models\Laravel\SlugL::class, // or SlugR
-        'user' => App\Models\User::class
+        'user' => App\Models\User::class,
+        'config_user' => App\Models\ConfigUser::class
     ],
     'user_api' => Zevitagem\LegoAuth\Controllers\Api\UserApiController::class,
     'config_user_api' => \Zevitagem\LegoAuth\Controllers\Api\ConfigUserApiController::class,
