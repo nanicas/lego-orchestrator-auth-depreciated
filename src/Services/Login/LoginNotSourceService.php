@@ -10,8 +10,7 @@ use Zevitagem\LegoAuth\Helpers\Helper;
 
 class LoginNotSourceService extends AbstractLoginService
 {
-
-    use NavigateAsAppService; 
+    use NavigateAsAppService;
 
     public function getDataOnShowLogin()
     {
@@ -19,10 +18,12 @@ class LoginNotSourceService extends AbstractLoginService
 
         $service = new ApplicationService();
         $service->setFilter(new ApplicationRemoverItself());
-        
+
         $applications = $service->getAllowedApplicationsToLogin();
-        $slugs = $this->getSlugs([
-            'with_slugs' => (string) ((int) ($config['slugs_inside'] === true && Helper::isLaravel()))
+        $slugs = (!Helper::isLaravel()) ? [] : $this->getSlugs([
+            'with_slugs' => (string) ((int) (
+                isset($config['slugs_inside']) &&
+                $config['slugs_inside'] === true))
         ]);
 
         return compact('applications', 'slugs');

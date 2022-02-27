@@ -11,6 +11,10 @@ use Zevitagem\LegoAuth\Filters\ApplicationCompleter;
 
 class ApplicationService
 {
+    const SOURCER_TYPE = 's';
+    const NOT_SOURCER_TYPE = 'ns';
+    const APP_TYPE = 'a';
+    
     private $filter = [];
 
     public function __construct()
@@ -55,11 +59,11 @@ class ApplicationService
 
     public function getAllowedApplicationsToLogin()
     {
-        return $this->getApplications('o');
+        return $this->getApplications(self::SOURCER_TYPE);
     }
 
     public function getApplicationsToShareSession()
     {
-        return $this->getApplications('f');
+        return $this->getApplications(self::APP_TYPE);
     }
 }
