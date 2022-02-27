@@ -67,4 +67,5 @@ Route::prefix($ancConfig['package'])->group(function () use ($ancConfig, $ancMid
 
     Route::post('/authorization/verify', [AuthorizationController::class, 'verify']);
     Route::get('/application/{app}/slugs', [ApplicationController::class, 'slugs'])->name('slugs');
+    Route::get('/application/buildOutLoginRoute', [ApplicationController::class, 'buildOutLoginRoute'])->name('build_out_login_route');
 });
