@@ -45,13 +45,18 @@ class ApplicationController
     public function buildOutLoginRoute(Request $request)
     {
         $config = Helper::readConfig();
-        $route = $request->query('login_route');
+        $route  = $request->query('login_route');
+
+        $hasSlugsInside  = ($config['slugs_inside'] === true);
+        $hasSelectedSlug = (!empty($_GET['slug']));
+        $isLaravel       = Helper::isLaravel();
 
         $data = [
-            'with_slugs' => (string) ((int) ($config['slugs_inside'] === false || !Helper::isLaravel()))
+            'with_slugs' => (int) (!$isLaravel || !$hasSlugsInside),
+            //'slugs_from_requester' => (int) ($isLaravel && !$hasSlugsInside && !$hasSelectedSlug)
         ];
 
-        if (!empty($_GET['slug'])) {
+        if ($hasSelectedSlug) {
             $data['slug'] = $_GET['slug'];
         }
 

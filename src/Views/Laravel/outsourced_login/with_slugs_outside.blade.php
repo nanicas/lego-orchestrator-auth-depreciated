@@ -12,7 +12,10 @@
                         @foreach($applications as $app)
                             <div class="card">
                                 <div class="card-body">
-                                    <a href="{{ $app->getLoginRoute().'?'.\Zevitagem\LegoAuth\Helpers\Helper::createBuildQueryToOutLogin(['with_slugs' => 1]) }}">{{ $app->getName() }}</a>
+                                    <a href="{{ $app->getLoginRoute().'?'.\Zevitagem\LegoAuth\Helpers\Helper::createBuildQueryToOutLogin([
+                                        'with_slugs' => 1,
+                                        'slugs_from_requester' => 1
+                                    ]) }}">{{ $app->getName() }}</a>
                                 </div>
                             </div>
                         @endforeach
