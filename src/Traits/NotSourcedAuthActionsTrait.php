@@ -20,7 +20,7 @@ trait NotSourcedAuthActionsTrait
         $config = Helper::readConfig();
         $view   = 'outsourced_login.with_slugs_inside';
 
-        if ($config['is_laravel'] === false || $config['slugs_inside'] === false) {
+        if (!Helper::isLaravel() || $config['slugs_inside'] === false) {
             $view = 'outsourced_login.with_slugs_outside';
         }
 

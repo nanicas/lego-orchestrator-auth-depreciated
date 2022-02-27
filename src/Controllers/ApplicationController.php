@@ -35,9 +35,28 @@ class ApplicationController
         return json_encode(Helper::createDefaultJsonToResponse($status,
                 [
                     'html' => Helper::getGeneralAdapter()->loadView(
-                        'slugs_list', compact('route', 'slugs', 'message', 'status')
+                        'slugs_list',
+                        compact('route', 'slugs', 'message', 'status')
                     )->render()
                 ]
         ));
+    }
+
+    public function buildOutLoginRoute(Request $request)
+    {
+        $config = Helper::readConfig();
+        $route = $request->query('login_route');
+
+        $data = [
+            'with_slugs' => (string) ((int) ($config['slugs_inside'] === false || !Helper::isLaravel()))
+        ];
+
+        if (!empty($_GET['slug']) && $data['with_slugs'] == '0') {
+            $data['slug'] = $_GET['slug'];
+        }
+
+        return Helper::getGeneralAdapter()->loadView('outsourced_login.login_route',
+            compact('route', 'data')
+        )->render();
     }
 }
