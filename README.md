@@ -36,6 +36,12 @@ Em config/app.php, adicione o provider na lista dos providers:
 \Zevitagem\LegoAuth\Providers\BootstrapServiceProvider::class
 ````
 
+Em app/Providers/RouteServiceProvider, adicione as configurações:
+```php
+public const HOME = '/home';
+public const USER_CONFIG = '/user_config';
+````
+
 Em app/http/kernel.php, adicione o middleware na lista dos `routeMiddleware`:
 ```php
 'auth.reuse' => \Zevitagem\LegoAuth\Middlewares\Laravel\ReuseIfAuthenticatedMiddleware::class
@@ -87,21 +93,26 @@ AUTHORIZATION_PUBLIC_KEY=""
 ```php
 return [
     'middlewares' => [
-        'auth_filler_middleware' => \Zevitagem\LegoAuth\Middlewares\AuthFillerMiddleware::class,
-        'authenticable_middleware' => \Zevitagem\LegoAuth\Middlewares\AuthenticateMiddleware::class,
+        'auth_filler_middleware' => Zevitagem\LegoAuth\Middlewares\AuthFillerMiddleware::class,
+        'authenticable_middleware' => Zevitagem\LegoAuth\Middlewares\AuthenticateMiddleware::class,
     ],
     'models' => [
-        //'application' => \Zevitagem\LegoAuth\Models\Laravel\ApplicationL::class, case laravel
-        'application' => \Zevitagem\LegoAuth\Models\Laravel\ApplicationR::class,
-        //'authorization' => \Zevitagem\LegoAuth\Models\Laravel\AuthorizationL::class, case laravel
-        'authorization' => \Zevitagem\LegoAuth\Models\Laravel\AuthorizationR::class, 
-        'user' => App\Models\User::class
+        'application' => \Zevitagem\LegoAuth\Models\Laravel\ApplicationL::class, // or ApplicationR
+        'authorization' => \Zevitagem\LegoAuth\Models\Laravel\AuthorizationL::class, // or AuthorizationR
+        'slug' => \Zevitagem\LegoAuth\Models\Laravel\SlugL::class, // or SlugR
+        'user' => App\Models\User::class,
+        'config_user' => App\Models\ConfigUser::class
     ],
-    'user_api' => \Zevitagem\LegoAuth\Controllers\Api\UserApiController::class,
+    'user_api' => Zevitagem\LegoAuth\Controllers\Api\UserApiController::class,
+    'config_user_api' => \Zevitagem\LegoAuth\Controllers\Api\ConfigUserApiController::class,
     'is_sourcer' => false,
     'is_laravel' => true,
-    'route_group' => 'anc',
-    'api_group' => 'api'
+    'package' => 'anc',
+    'api_group' => 'api',
+    'slugs_inside' => false,
+    'pages' => [
+        'user_config' => true
+    ]
 ];
 ```
 
