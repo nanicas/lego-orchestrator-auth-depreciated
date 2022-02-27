@@ -51,7 +51,7 @@ class ApplicationController
             'with_slugs' => (string) ((int) ($config['slugs_inside'] === false || !Helper::isLaravel()))
         ];
 
-        if (!empty($_GET['slug']) && $data['with_slugs'] == '0') {
+        if (!empty($_GET['slug'])) {
             $data['slug'] = $_GET['slug'];
         }
 
