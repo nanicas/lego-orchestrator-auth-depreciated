@@ -18,12 +18,7 @@ class AuthenticateMiddleware
         $header = getallheaders();
 
         if (empty($header) || !isset($header['Authorization'])) {
-            http_response_code(401);
-            echo json_encode(
-                Helper::createDefaultJsonToResponse(
-                    false, ['message' => 'authorization_was_not_sent']
-                )
-            );
+            $this->unauthorized('authorization_was_not_sent');
             exit;
         }
 
@@ -35,12 +30,24 @@ class AuthenticateMiddleware
         $responseRequest = $client->get('?action=verifyAccess');
 
         $response = Helper::extractJsonFromRequester($responseRequest);
+
         if ($response['status'] == false) {
-            return $response;
+            $this->unauthorized($response['response']['message']);
+            exit;
         }
 
         ApiState::instance($response['response']);
 
         return $next($request);
+    }
+
+    private function unauthorized(string $message)
+    {
+        http_response_code(401);
+        echo json_encode(
+            Helper::createDefaultJsonToResponse(
+                false, ['message' => $message]
+            )
+        );
     }
 }
