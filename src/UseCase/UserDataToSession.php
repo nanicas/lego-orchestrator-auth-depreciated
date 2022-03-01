@@ -6,6 +6,7 @@ use Zevitagem\LegoAuth\Services\ConfigUserService;
 use Zevitagem\LegoAuth\Helpers\Helper;
 use Zevitagem\LegoAuth\Exceptions\ImpossibilityToGetUserDataException;
 use GuzzleHttp\Client;
+use Zevitagem\LegoAuth\Services\UserService;
 
 class UserDataToSession
 {
@@ -62,13 +63,9 @@ class UserDataToSession
         if (empty($userId) || empty($authenticator) || empty($token)) {
             throw new \InvalidArgumentException();
         }
-        
-        $client = new Client(['headers' => ['Authorization' => $token]]);
-        $requestResponse = $client->request('GET',
-            $authenticator['internal_api_url'].'/users/'.$userId
-        );
 
-        $response = Helper::extractJsonFromRequester($requestResponse);
+        $userService = new UserService();
+        $response = $userService->findInUrl($userId, $authenticator['internal_api_url'], $token);
 
         if ($response['status'] == false) {
             throw new ImpossibilityToGetUserDataException($response['response']['message']);

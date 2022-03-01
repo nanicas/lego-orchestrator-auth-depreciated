@@ -19,6 +19,11 @@ class Helper
         ], ...$args));
     }
 
+    public static function getToken()
+    {
+        return \Zevitagem\LegoAuth\Services\SessionService::getCurrentData()['token'];
+    }
+
     public static function isLaravel()
     {
         $config = self::readConfig();
