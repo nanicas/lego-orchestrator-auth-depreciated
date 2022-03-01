@@ -24,6 +24,11 @@ class Helper
         return \Zevitagem\LegoAuth\Services\SessionService::getCurrentData()['token'];
     }
 
+    public static function getSlug()
+    {
+        return \Zevitagem\LegoAuth\Services\SessionService::getCurrentData()['slug'];
+    }
+
     public static function isLaravel()
     {
         $config = self::readConfig();
