@@ -25,7 +25,7 @@ class ReuseIfAuthenticatedMiddleware
         $user    = Auth::user();
 
         $authenticatedData = $service->getTempAuth(
-            $user, 1//$_POST['slug']
+            $user, 1, $_GET['app_requester_id']
         );
 
         return Redirect::to($_GET['url_callback'].'?'.$authenticatedData['params']);

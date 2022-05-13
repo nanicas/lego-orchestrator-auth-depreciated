@@ -45,6 +45,18 @@ class ApplicationService
         return $this->filter->filter($applications);
     }
 
+    public function getApplication(int $app)
+    {
+        $hydrator = new ApplicationHydrator();
+
+        $client   = new Client(['base_uri' => env('AUTHORIZATION_APP_URL').'?action=getApplication&id='.$app]);
+        $response = $client->request('GET');
+
+        $extractedResponse = Helper::extractJsonFromRequester($response);
+
+        return $hydrator->hydrate($extractedResponse['response']);
+    }
+
     public function getSlugsByApplication(int $app)
     {
         $hydrator = new SlugHydrator();
@@ -53,7 +65,7 @@ class ApplicationService
         $response = $client->request('GET');
 
         $extractedResponse = Helper::extractJsonFromRequester($response);
-
+        
         return $hydrator->hydrateArray($extractedResponse['response']);
     }
 
@@ -65,5 +77,10 @@ class ApplicationService
     public function getApplicationsToShareSession()
     {
         return $this->getApplications(self::APP_TYPE);
+    }
+
+    public function getApplicationsToEnjoy()
+    {
+        return $this->getApplications(self::NOT_SOURCER_TYPE);
     }
 }

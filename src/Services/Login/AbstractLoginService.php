@@ -22,7 +22,7 @@ abstract class AbstractLoginService extends AbstractService
 
         $service = new SlugService();
         $appId   = Helper::getAppId();
-
+        
         if (!$specificSlug) {
             return $service->getSlugsByApplication(
                     (!empty($requesterId) && $slugsFromRequester)
@@ -33,7 +33,7 @@ abstract class AbstractLoginService extends AbstractService
 
         $slug = $service->getSlug($slugId);
         $list = new \ArrayIterator();
-
+        
         if (empty($slug)) {
             return $list;
         }

@@ -10,7 +10,7 @@ class ApplicationL extends AbstractLaravelModel
 
     use ApplicationModelTrait;
     
-    protected $table    = 'applications';
+    protected $table = 'applications';
 
     /**
      * The attributes that are mass assignable.
@@ -23,6 +23,7 @@ class ApplicationL extends AbstractLaravelModel
         'id',
         'active',
         'login_route',
+        'site_route'
     ];
 
 }
