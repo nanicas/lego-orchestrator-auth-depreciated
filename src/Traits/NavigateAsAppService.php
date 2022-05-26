@@ -15,7 +15,6 @@ use Zevitagem\LegoAuth\UseCase\UserDataToSession;
 
 trait NavigateAsAppService
 {
-
     use ResponseTrait;
     private $config;
     private $user;
@@ -120,7 +119,7 @@ trait NavigateAsAppService
     public function configureSession(array $data)
     {
         $sessionIdentifier = Helper::generateUniqueSessionIdentifier(
-                $data['authenticator']['id'], $data['slug'], $data['user_id']
+            $data['authenticator']['id'], $data['slug'], $data['user_id']
         );
 
         $tempStorageAdapter = $this->tempStorage::getAdapter();
@@ -133,6 +132,8 @@ trait NavigateAsAppService
             'requester' => $data['requester'],
             'slug' => $data['slug'],
             'user' => $data['user'],
+            'customer' => $data['customer'],
+            'contract' => $data['contract'],
             'created_at' => time()
         ]);
 

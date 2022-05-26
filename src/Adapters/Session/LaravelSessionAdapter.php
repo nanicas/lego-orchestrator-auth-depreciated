@@ -22,6 +22,8 @@ class LaravelSessionAdapter
                     'requester' => $data['requester'],
                     'slug' => $data['slug'],
                     'user' => $data['user'],
+                    'customer' => $data['customer'],
+                    'contract' => $data['contract'],
                     'created_at' => $data['created_at']
                 ]
             ]
