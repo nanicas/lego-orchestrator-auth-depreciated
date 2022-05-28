@@ -41,7 +41,7 @@ class UserDataToSession
         if (Helper::isLaravel()) {
             return $this->getInternalConfigUser($userId, $slug);
         }
-        
+
         $client = new Client(['headers' => ['Authorization' => $token]]);
         $requestResponse = $client->request('GET',
             $requester['internal_api_url'].'/config_users/'.$userId.'/'.$slug

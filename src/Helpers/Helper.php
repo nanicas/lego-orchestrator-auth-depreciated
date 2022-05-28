@@ -7,7 +7,6 @@ use Zevitagem\LegoAuth\Adapters\FactoryAdapter;
 
 class Helper
 {
-
     public static function createBuildQueryToOutLogin(): string
     {
         $adapter = self::getGeneralAdapter();
@@ -27,6 +26,21 @@ class Helper
     public static function getSlug()
     {
         return \Zevitagem\LegoAuth\Services\SessionService::getCurrentData()['slug'];
+    }
+    
+    public static function getUserId()
+    {
+        return \Zevitagem\LegoAuth\Services\SessionService::getCurrentData()['user']['id'];
+    }
+
+    public static function getCustomer()
+    {
+        return \Zevitagem\LegoAuth\Services\SessionService::getCurrentData()['customer'];
+    }
+
+    public static function getContract()
+    {
+        return \Zevitagem\LegoAuth\Services\SessionService::getCurrentData()['contract'];
     }
 
     public static function isLaravel()
