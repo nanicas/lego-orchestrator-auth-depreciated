@@ -32,6 +32,11 @@ class Helper
     {
         return \Zevitagem\LegoAuth\Services\SessionService::getCurrentData()['user']['id'];
     }
+    
+    public static function getUserConfig()
+    {
+        return \Zevitagem\LegoAuth\Services\SessionService::getCurrentData()['user']['config'];
+    }
 
     public static function getCustomer()
     {
@@ -41,6 +46,22 @@ class Helper
     public static function getContract()
     {
         return \Zevitagem\LegoAuth\Services\SessionService::getCurrentData()['contract'];
+    }
+
+    public static function isMaster()
+    {
+        $customer = self::getCustomer();
+        return (!empty($customer) && !empty($customer['active']));
+    }
+
+    public static function isAdmin()
+    {
+        $userConfig = self::getUserConfig();
+        if (empty($userConfig)) {
+            return false;
+        }
+
+        return (!empty($userConfig['admin']));
     }
 
     public static function isLaravel()
