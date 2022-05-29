@@ -4,7 +4,7 @@ namespace Zevitagem\LegoAuth\Hydrators;
 
 use Zevitagem\LegoAuth\Hydrators\AbstractHydrator;
 
-class ApplicationHydrator extends AbstractHydrator
+class ContractHydrator extends AbstractHydrator
 {
-    const NAME = 'application';
+    const NAME = 'contract';
 }
