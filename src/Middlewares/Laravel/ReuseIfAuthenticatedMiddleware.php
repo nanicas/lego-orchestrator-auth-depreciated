@@ -21,11 +21,15 @@ class ReuseIfAuthenticatedMiddleware
             return $next($request);
         }
 
+        if (empty($slug = $_GET['slug'] ?? 0)) {
+            return $next($request);
+        }
+
         $service = new AuthorizationService();
         $user    = Auth::user();
 
         $authenticatedData = $service->getTempAuth(
-            $user, 1, $_GET['app_requester_id']
+            $user, $slug, $_GET['app_requester_id']
         );
 
         return Redirect::to($_GET['url_callback'].'?'.$authenticatedData['params']);

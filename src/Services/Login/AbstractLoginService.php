@@ -19,7 +19,7 @@ abstract class AbstractLoginService extends AbstractService
         if (!$withSlugs && !$specificSlug) {
             return new \ArrayIterator();
         }
-
+        
         $service = new SlugService();
         $appId   = Helper::getAppId();
         

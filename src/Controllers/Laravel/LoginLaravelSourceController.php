@@ -16,9 +16,12 @@ class LoginLaravelSourceController extends AbstractLoginLaravelController
     {
         parent::__construct();
 
-        $this->middleware('auth.reuse')->only('showLoginForm');
-        $this->middleware('guest')->except('logout');
+        $this->middleware([
+            'auth.reuse',
+            'auth.login_case_logged_with_out_request'
+        ])->only('showLoginForm');
         
+        $this->middleware('guest')->except('logout');        
         $this->setService(new LoginSourceService());
     }
 
