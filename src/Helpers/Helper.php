@@ -18,6 +18,11 @@ class Helper
         ], ...$args));
     }
 
+    public static function getSessionData()
+    {
+        return \Zevitagem\LegoAuth\Services\SessionService::getCurrentData();
+    }
+
     public static function getToken()
     {
         return \Zevitagem\LegoAuth\Services\SessionService::getCurrentData()['token'];
