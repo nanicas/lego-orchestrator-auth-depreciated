@@ -44,7 +44,7 @@ class UserDataToSession
 
         $client = new Client(['headers' => ['Authorization' => $token]]);
         $requestResponse = $client->request('GET',
-            $requester['internal_api_url'].'/config_users/'.$userId.'/'.$slug
+            $requester['internal_api_url_packaged'].'/config_users/'.$userId.'/'.$slug
         );
 
         $response = Helper::extractJsonFromRequester($requestResponse);
@@ -65,7 +65,7 @@ class UserDataToSession
         }
 
         $userService = new UserService();
-        $response = $userService->findInUrl($userId, $authenticator['internal_api_url'], $token);
+        $response = $userService->findInUrl($userId, $authenticator['internal_api_url_packaged'], $token);
 
         if ($response['status'] == false) {
             throw new ImpossibilityToGetUserDataException($response['response']['message']);

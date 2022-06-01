@@ -72,7 +72,7 @@ class AuthorizationService extends AbstractService
             'headers' => ['Authorization' => $session['token']]
         ]);
 
-        $response          = $client->post($session['authenticator']['internal_api_url'].'/login/generateTempAuthByToken');
+        $response          = $client->post($session['authenticator']['internal_api_url_packaged'].'/login/generateTempAuthByToken');
         $extractedResponse = Helper::extractJsonFromRequester($response);
 
         if ($extractedResponse['status'] === false) {
