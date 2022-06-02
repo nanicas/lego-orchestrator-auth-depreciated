@@ -30,7 +30,7 @@ class Helper
 
     public static function getSlug()
     {
-        return \Zevitagem\LegoAuth\Services\SessionService::getCurrentData()['slug'];
+        return \Zevitagem\LegoAuth\Services\SessionService::getCurrentData()['slug']['id'];
     }
     
     public static function getUserId()

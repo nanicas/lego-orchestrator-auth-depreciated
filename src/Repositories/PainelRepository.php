@@ -5,13 +5,12 @@ namespace Zevitagem\LegoAuth\Repositories;
 use GuzzleHttp\Client;
 use Zevitagem\LegoAuth\Helpers\Helper;
 use Zevitagem\LegoAuth\Repositories\AbstractRepository;
-use Zevitagem\LegoAuth\Hydrators\ContractHydrator;
 
 class PainelRepository extends AbstractRepository
 {
     const ROUTE = 'painel';
 
-    public function getContractBySlugTextAndApplication(
+    public function getInfoBySlugTextAndApplication(
         string $slug, int $applicatonId
     )
     {
@@ -33,12 +32,10 @@ class PainelRepository extends AbstractRepository
 
         $data = Helper::extractJsonFromRequester($response);
 
-        if ($data['status'] == false || empty($data['response']['contract'])) {
+        if ($data['status'] == false) {
             return null;
         }
 
-        $hydrator = new ContractHydrator();
-
-        return $hydrator->hydrate($data['response']['contract']);
+        return $data['response'];
     }
 }

@@ -38,13 +38,14 @@ class UserDataToSession
             throw new \InvalidArgumentException();
         }
 
+        $slugId = $slug['id'];
         if (Helper::isLaravel()) {
-            return $this->getInternalConfigUser($userId, $slug);
+            return $this->getInternalConfigUser($userId, $slugId);
         }
 
         $client = new Client(['headers' => ['Authorization' => $token]]);
         $requestResponse = $client->request('GET',
-            $requester['internal_api_url_packaged'].'/config_users/'.$userId.'/'.$slug
+            $requester['internal_api_url_packaged'].'/config_users/'.$userId.'/'.$slugId
         );
 
         $response = Helper::extractJsonFromRequester($requestResponse);
