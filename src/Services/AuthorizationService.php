@@ -116,7 +116,7 @@ class AuthorizationService extends AbstractService
             ->where('code', $decryptedJson['code'])
             ->where('user_id', $decryptedJson['user_id'])
             ->limit(1)
-            ->update(['verified_at' => now()]);
+            ->update(['verified_at' => date('Y-m-d H:i:s')]);
 
         return true;
     }
