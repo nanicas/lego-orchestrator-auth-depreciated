@@ -7,7 +7,6 @@ use Zevitagem\LegoAuth\Helpers\Helper;
 
 class ConfigUserRepository extends AbstractRepository
 {
-
     public function __construct()
     {
         $model = Helper::readConfig()['models']['config_user'];

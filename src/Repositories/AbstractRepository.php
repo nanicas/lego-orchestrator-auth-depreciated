@@ -2,7 +2,9 @@
 
 namespace Zevitagem\LegoAuth\Repositories;
 
-abstract class AbstractRepository
+use Zevitagem\LegoAuth\Contracts\RepositoryContract;
+
+abstract class AbstractRepository implements RepositoryContract
 {
     protected $model;
 
