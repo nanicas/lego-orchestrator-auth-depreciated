@@ -7,7 +7,6 @@ use Zevitagem\LegoAuth\Traits\Models\AuthorizationModelTrait;
 
 class AuthorizationL extends AbstractLaravelModel
 {
-
     use AuthorizationModelTrait;
 
     protected $table    = 'authorizations';

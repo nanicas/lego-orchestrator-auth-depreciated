@@ -4,18 +4,21 @@ namespace Zevitagem\LegoAuth\Helpers;
 
 use Psr\Http\Message\ResponseInterface;
 use Zevitagem\LegoAuth\Adapters\FactoryAdapter;
+use Zevitagem\LegoAuth\Controllers\AuthorizationController;
+use Zevitagem\LegoAuth\Controllers\ApplicationController;
 
 class Helper
 {
+
     public static function createBuildQueryToOutLogin(): string
     {
         $adapter = self::getGeneralAdapter();
-        $args = func_get_args();
+        $args    = func_get_args();
 
         return http_build_query(array_merge([
             'url_callback' => $adapter->getLoginRoute(),
             'app_requester_id' => self::getAppId()
-        ], ...$args));
+                ], ...$args));
     }
 
     public static function getSessionData()
@@ -32,12 +35,12 @@ class Helper
     {
         return \Zevitagem\LegoAuth\Services\SessionService::getCurrentData()['slug']['id'];
     }
-    
+
     public static function getUserId()
     {
         return \Zevitagem\LegoAuth\Services\SessionService::getCurrentData()['user']['id'];
     }
-    
+
     public static function getUserConfig()
     {
         return \Zevitagem\LegoAuth\Services\SessionService::getCurrentData()['user']['config'];
@@ -123,9 +126,7 @@ class Helper
     }
 
     public static function generateUniqueSessionIdentifier(
-        int $appId,
-        int $slug,
-        int $userId
+        int $appId, int $slug, int $userId
     )
     {
         return hash("crc32", "$appId-$slug-$userId}");
@@ -162,7 +163,7 @@ class Helper
     {
         $prefix = (isset($_SERVER["PWD"])) ? $_SERVER["PWD"] : '..';
 
-        return require $prefix.'/annacode_config.php';
+        return require $prefix.'/lego_config.php';
     }
 
     public static function getAdapter(string $type)
@@ -211,7 +212,12 @@ class Helper
         return (!empty($_GET['token']));
     }
 
-    public static function laravelWebMiddlewares(array $middlewares = ['web'])
+    public static function defineLaravelWebMiddlewares(array $middlewares = ['web'])
+    {
+        return self::defineWebMiddlewares($middlewares);
+    }
+
+    public static function defineWebMiddlewares(array $middlewares = [])
     {
         $config = self::readConfig();
 
@@ -220,5 +226,60 @@ class Helper
         }
 
         return $middlewares;
+    }
+
+    public static function loadLaravelLegoRoutes(array $config, array $classes)
+    {
+        if (!isset($classes['login_controller'])) {
+            throw new \InvalidArgumentException('The attribute "login_controller" was not informed for loading routes');
+        }
+
+        \Route::prefix($config['package'])->group(
+            function () use ($config, $classes) {
+
+            \Route::prefix($config['api_group'])
+                ->middleware([$config['middlewares']['authenticable_middleware']])
+                ->group(function () use ($config, $classes) {
+
+                    \Route::post('/login/generateTempAuthByToken',
+                        [$classes['login_controller'], 'generateTempAuthByToken'])->name('generateTempAuthByToken');
+
+                    \Route::prefix('/users')->group(function () use ($config) {
+                        \Route::get('/{id}', [$config['user_api'], 'find']);
+                    });
+
+                    \Route::prefix('/config_users')->group(function () use ($config) {
+                        \Route::get('/{userId}/{slug}',
+                            [$config['config_user_api'], 'getByUserAndSlug']);
+                    });
+                });
+
+            \Route::prefix('/login')->middleware(['web'])->group(function () use ($classes) {
+
+                \Route::post('/generateTempAuthInSourcer',
+                    [$classes['login_controller'], 'generateTempAuthInSourcer'])->name('generateTempAuthInSourcer');
+
+                \Route::get('/generateTokenByTemp',
+                    [$classes['login_controller'], 'generateTokenByTemp'])->name('generateTokenByTemp');
+
+                \Route::get('/tryRegenerateToken',
+                    [$classes['login_controller'], 'tryRegenerateToken'])->name('tryRegenerateToken');
+
+                \Route::get('/changeSessionByIdentifier',
+                    [$classes['login_controller'], 'changeSessionByIdentifier'])->name('changeSessionByIdentifier');
+            });
+
+            \Route::post('/authorization/verify',
+                [AuthorizationController::class, 'verify']);
+            \Route::get('/application/{app}/slugs',
+                [ApplicationController::class, 'slugs'])->name('slugs');
+            \Route::get('/application/buildOutLoginRoute',
+                [ApplicationController::class, 'buildOutLoginRoute'])->name('build_out_login_route');
+        });
+    }
+
+    public static function hydrateUnique(string $class, array $data)
+    {
+        return $class::hydrate([$data])->first();
     }
 }

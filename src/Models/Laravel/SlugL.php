@@ -7,11 +7,10 @@ use Zevitagem\LegoAuth\Traits\Models\SlugModelTrait;
 
 class SlugL extends AbstractLaravelModel
 {
-
     use SlugModelTrait;
-
-    protected $table    = 'slugs';
     
+    protected $table = 'slugs';
+
     const UPDATED_AT = null;
 
     /**
@@ -34,5 +33,4 @@ class SlugL extends AbstractLaravelModel
     protected $casts = [
         'deleted_at' => 'datetime',
     ];
-
 }

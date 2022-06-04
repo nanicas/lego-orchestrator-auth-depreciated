@@ -6,8 +6,7 @@ use Zevitagem\LegoAuth\Models\AbstractLaravelModel;
 
 class ContractL extends AbstractLaravelModel
 {
-    const UPDATED_AT = null;
-    const PRIMARY_KEY = 'id';
+    const UPDATED_AT  = null;
 
     protected $fillable = [
         'id',
@@ -16,12 +15,20 @@ class ContractL extends AbstractLaravelModel
         'slug',
         'active',
         'slug_name',
+        'site_route',
+        'application_name',
+        'application_domain',
         'created_at'
     ];
 
     public function getSlug()
     {
         return $this->slug;
+    }
+
+    public function getApplicationName()
+    {
+        return $this->application_name;
     }
 
     public function getApplicationId()
@@ -34,11 +41,6 @@ class ContractL extends AbstractLaravelModel
         return $this->slug_name;
     }
 
-    public function getCreatedAt()
-    {
-        return $this->created_at;
-    }
-
     public function getActive()
     {
         return $this->active;
@@ -47,5 +49,15 @@ class ContractL extends AbstractLaravelModel
     public function isActive()
     {
         return ($this->active == 1);
+    }
+
+    public function getSiteRoute()
+    {
+        return $this->site_route;
+    }
+
+    public function getUrl()
+    {
+        return $this->application_domain.''.$this->site_route.'/'.$this->getSlug();
     }
 }
