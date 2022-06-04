@@ -15,6 +15,8 @@ trait NotSourcedAuthActionsTrait
         }
 
         $data    = $this->getService()->getDataOnShowLogin();
+        $data['message'] = $_GET['message'] ?? '';
+
         $adapter = FactoryAdapter::instance(FactoryAdapter::GENERAL_TYPE);
 
         $config = Helper::readConfig();
