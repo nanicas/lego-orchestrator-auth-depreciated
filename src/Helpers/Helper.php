@@ -9,7 +9,6 @@ use Zevitagem\LegoAuth\Controllers\ApplicationController;
 
 class Helper
 {
-
     public static function createBuildQueryToOutLogin(): string
     {
         $adapter = self::getGeneralAdapter();
@@ -18,7 +17,7 @@ class Helper
         return http_build_query(array_merge([
             'url_callback' => $adapter->getLoginRoute(),
             'app_requester_id' => self::getAppId()
-                ], ...$args));
+        ], ...$args));
     }
 
     public static function getSessionData()
@@ -161,8 +160,8 @@ class Helper
 
     public static function readConfig()
     {
-        $prefix = (isset($_SERVER["PWD"])) ? $_SERVER["PWD"] : '..';
-
+        //$prefix = (isset($_SERVER["PWD"])) ? $_SERVER["PWD"] : '..';
+	$prefix = '..';
         return require $prefix.'/lego_config.php';
     }
 

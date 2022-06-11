@@ -39,4 +39,11 @@ class LoginConfig
     {
         return $this->url;
     }
+
+    public function getHeaders()
+    {
+        return [
+            'route' => 'access'
+        ];
+    }
 }

@@ -13,7 +13,12 @@ class SlugService
     {
         $hydrator = new SlugHydrator();
 
-        $client   = new Client(['base_uri' => env('AUTHORIZATION_APP_URL').'?action=getSlugsByApp&app='.$app]);
+        $client   = new Client([
+            'base_uri' => env('AUTHORIZATION_APP_URL').'?action=getSlugsByApp&app='.$app,
+            'headers' => [
+                'route' => 'access'
+            ]
+        ]);
         $response = $client->request('GET');
 
         $extractedResponse = Helper::extractJsonFromRequester($response);
@@ -25,7 +30,13 @@ class SlugService
     {
         $hydrator = new SlugHydrator();
 
-        $client   = new Client(['base_uri' => env('AUTHORIZATION_APP_URL').'?action=getSlug&id='.$slug]);
+        $client   = new Client([
+            'base_uri' => env('AUTHORIZATION_APP_URL').'?action=getSlug&id='.$slug,
+            'headers' => [
+                'route' => 'access'
+            ]
+        ]);
+        
         $response = $client->request('GET');
 
         $extractedResponse = Helper::extractJsonFromRequester($response);

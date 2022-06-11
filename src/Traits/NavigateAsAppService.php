@@ -31,7 +31,11 @@ trait NavigateAsAppService
 
     public function tryGenerateAccessToken(array $data)
     {
-        $client = new Client(['base_uri' => $this->config->getUrl()]);
+        $client = new Client([
+            'base_uri' => $this->config->getUrl(),
+            'headers' => $this->config->getHeaders()
+        ]);
+        
         $requestResponse = $client->request('GET', '',
             [
                 'query' => [
@@ -70,7 +74,11 @@ trait NavigateAsAppService
             env('AUTHORIZATION_PUBLIC_KEY')
         );
 
-        $client = new Client(['base_uri' => $this->config->getUrl()]);
+        $client = new Client([
+            'base_uri' => $this->config->getUrl(),
+            'headers' => $this->config->getHeaders()
+        ]);
+        
         $requestResponse = $client->request('POST', '?action=generateTokenByRefresh',
             [
                 'form_params' => [

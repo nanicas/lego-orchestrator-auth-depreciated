@@ -29,7 +29,12 @@ class AuthorizationService extends AbstractService
         $authorization->user_id = $userId;
         $authorization->save();
 
-        $client = new Client(['base_uri' => env('AUTHORIZATION_APP_URL')]);
+        $client = new Client([
+            'base_uri' => env('AUTHORIZATION_APP_URL'),
+            'headers' => [
+                'route' => 'access'
+            ]
+        ]);
 
         $encryptToSend = Helper::encryptDifferentiated(json_encode([
                 'user_id' => $userId,

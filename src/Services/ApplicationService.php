@@ -31,7 +31,13 @@ class ApplicationService
     {
         $hydrator = new ApplicationHydrator();
 
-        $client   = new Client(['base_uri' => env('AUTHORIZATION_APP_URL').'?action=getApplications&type='.$type]);
+        $client   = new Client([
+            'base_uri' => env('AUTHORIZATION_APP_URL').'?action=getApplications&type='.$type,
+            'headers' => [
+                'route' => 'access'
+            ]
+        ]);
+        
         $response = $client->request('GET');
 
         $extractedResponse = Helper::extractJsonFromRequester($response);
@@ -49,7 +55,13 @@ class ApplicationService
     {
         $hydrator = new ApplicationHydrator();
 
-        $client   = new Client(['base_uri' => env('AUTHORIZATION_APP_URL').'?action=getApplication&id='.$app]);
+        $client   = new Client([
+            'base_uri' => env('AUTHORIZATION_APP_URL').'?action=getApplication&id='.$app,
+            'headers' => [
+                'route' => 'access'
+            ]
+        ]);
+        
         $response = $client->request('GET');
 
         $extractedResponse = Helper::extractJsonFromRequester($response);
@@ -61,14 +73,20 @@ class ApplicationService
     {
         $hydrator = new SlugHydrator();
 
-        $client   = new Client(['base_uri' => env('AUTHORIZATION_APP_URL').'?action=getSlugsByApp&app='.$app]);
+        $client   = new Client([
+            'base_uri' => env('AUTHORIZATION_APP_URL').'?action=getSlugsByApp&app='.$app,
+            'headers' => [
+                'route' => 'access'
+            ]
+        ]);
+        
         $response = $client->request('GET');
 
         $extractedResponse = Helper::extractJsonFromRequester($response);
         
         return $hydrator->hydrateArray($extractedResponse['response']);
     }
-
+    
     public function getAllowedApplicationsToLogin()
     {
         return $this->getApplications(self::SOURCER_TYPE);

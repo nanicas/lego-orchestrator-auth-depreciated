@@ -13,7 +13,7 @@ abstract class AbstractHydrator
 
     public function newModel(array $data = [])
     {
-        return new ($this->getModel())($data);
+	return (new $this->getModel())($data);
     }
 
     public function hydrateArray(array $data)
@@ -28,7 +28,8 @@ abstract class AbstractHydrator
 
     public static function staticNewModel(array $data = [])
     {
-        return new (static::staticGetModel())($data);
+	$model = static::staticGetModel();
+        return (new $model)($data);
     }
 
     public static function staticHydrate(array $data)
