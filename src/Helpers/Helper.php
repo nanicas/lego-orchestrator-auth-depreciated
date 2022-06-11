@@ -162,7 +162,11 @@ class Helper
     {
         //$prefix = (isset($_SERVER["PWD"])) ? $_SERVER["PWD"] : '..';
 	$prefix = '..';
-        return require $prefix.'/lego_config.php';
+        $file = $prefix.'/lego_config.php';
+
+        if (file_exists($file)) {
+            return require $file;
+        }
     }
 
     public static function getAdapter(string $type)
