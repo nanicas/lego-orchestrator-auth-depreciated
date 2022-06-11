@@ -167,6 +167,8 @@ class Helper
         if (file_exists($file)) {
             return require $file;
         }
+
+        return [];
     }
 
     public static function getAdapter(string $type)
