@@ -241,6 +241,10 @@ class Helper
             throw new \InvalidArgumentException('The attribute "login_controller" was not informed for loading routes');
         }
 
+        if (empty($config)) {
+            return;
+        }
+
         \Route::prefix($config['package'])->group(
             function () use ($config, $classes) {
 
