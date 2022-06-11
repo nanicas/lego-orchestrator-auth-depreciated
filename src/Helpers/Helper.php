@@ -222,7 +222,9 @@ class Helper
 
     public static function defineWebMiddlewares(array $middlewares = [])
     {
-        $config = self::readConfig();
+        if (empty($config = self::readConfig())) {
+            return $middlewares;
+        }
 
         if ($config['is_sourcer'] == false) {
             $middlewares[] = $config['middlewares']['auth_filler_middleware'];
