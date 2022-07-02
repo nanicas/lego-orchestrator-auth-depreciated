@@ -4,7 +4,6 @@ namespace Zevitagem\LegoAuth\Traits\Models;
 
 trait ApplicationModelTrait
 {
-
     public function getName()
     {
         return $this->name;

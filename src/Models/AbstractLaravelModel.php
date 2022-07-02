@@ -3,25 +3,13 @@
 namespace Zevitagem\LegoAuth\Models;
 
 use Illuminate\Database\Eloquent\Model;
+use Zevitagem\LegoAuth\Traits\Models\ApplicationModelTrait;
 
 abstract class AbstractLaravelModel extends Model
 {
-    const PRIMARY_KEY = 'id';
+    use ApplicationModelTrait;
     
-    public static function getPrimaryKey()
-    {
-        return static::PRIMARY_KEY;
-    }
-
-    public function getPrimaryValue()
-    {
-        return $this->{self::getPrimaryKey()};
-    }
-
-    public function getId()
-    {
-        return $this->getPrimaryValue();
-    }
+    const PRIMARY_KEY = 'id';
 
     public function getCreatedAt()
     {

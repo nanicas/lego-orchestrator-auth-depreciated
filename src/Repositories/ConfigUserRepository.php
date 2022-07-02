@@ -2,10 +2,10 @@
 
 namespace Zevitagem\LegoAuth\Repositories;
 
-use Zevitagem\LegoAuth\Repositories\AbstractRepository;
+use Zevitagem\LegoAuth\Repositories\AbstractLaravelRepository;
 use Zevitagem\LegoAuth\Helpers\Helper;
 
-class ConfigUserRepository extends AbstractRepository
+class ConfigUserRepository extends AbstractLaravelRepository
 {
     public function __construct()
     {
