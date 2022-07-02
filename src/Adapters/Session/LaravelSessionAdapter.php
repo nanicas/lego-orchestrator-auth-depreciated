@@ -19,6 +19,7 @@ class LaravelSessionAdapter
                     'token' => $data['token'],
                     'expire_at' => $data['expire_at'],
                     'authenticator' => $data['authenticator'],
+                    'segment' => $data['segment'],
                     'requester' => $data['requester'],
                     'slug' => $data['slug'],
                     'user' => $data['user'],

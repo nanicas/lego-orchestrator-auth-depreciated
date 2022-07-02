@@ -7,6 +7,7 @@ use Zevitagem\LegoAuth\Helpers\Helper;
 use Zevitagem\LegoAuth\Repositories\AbstractRepository;
 use Zevitagem\LegoAuth\Models\Laravel\ContractL;
 use Zevitagem\LegoAuth\Models\Laravel\CustomerL;
+use Zevitagem\LegoAuth\Models\Laravel\SegmentL;
 
 class PainelRepository extends AbstractRepository
 {
@@ -94,6 +95,31 @@ class PainelRepository extends AbstractRepository
         }
 
         return ContractL::hydrate([$data['response']])->first();
+    }
+
+    public function getSegments()
+    {
+        $url    = env('PAINEL_APP_URL');
+        $params = http_build_query(array_merge([
+            'action' => 'getSegments'
+        ]));
+
+        $client = new Client([
+            'base_uri' => $url,
+            'headers' => [
+                'route' => self::ROUTE
+            ]
+        ]);
+
+        $response = $client->request('GET', '?'.$params);
+
+        $data = Helper::extractJsonFromRequester($response);
+
+        if (empty($data['response'])) {
+            return [];
+        }
+
+        return SegmentL::hydrate($data['response']);
     }
 
     public function storeContract(array $data)

@@ -18,6 +18,9 @@ class ContractL extends AbstractLaravelModel
         'site_route',
         'application_name',
         'application_domain',
+        'segment_id',
+        'segment_name',
+        'segment_code',
         'created_at'
     ];
 
@@ -39,6 +42,21 @@ class ContractL extends AbstractLaravelModel
     public function getSlugName()
     {
         return $this->slug_name;
+    }
+
+    public function getSegmentName()
+    {
+        return (empty($this->segment_name)) ? 'Nenhum' : $this->segment_name;
+    }
+
+    public function getSegmentCode()
+    {
+        return $this->segment_code;
+    }
+
+    public function getSegmentId()
+    {
+        return $this->segment_id;
     }
 
     public function getActive()

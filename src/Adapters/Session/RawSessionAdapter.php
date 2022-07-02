@@ -23,6 +23,7 @@ class RawSessionAdapter
             'requester' => $data['requester'],
             'slug' => $data['slug'],
             'user' => $data['user'],
+            'segment' => $data['segment'],
             'customer' => $data['customer'],
             'contract' => $data['contract'],
             'created_at' => $data['created_at']

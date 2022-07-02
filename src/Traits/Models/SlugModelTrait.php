@@ -24,4 +24,9 @@ trait SlugModelTrait
     {
         return $this->slug;
     }
+
+    public function getSegmentId()
+    {
+        return $this->segment_id;
+    }
 }

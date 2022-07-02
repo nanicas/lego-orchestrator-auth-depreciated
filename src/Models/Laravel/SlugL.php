@@ -21,6 +21,7 @@ class SlugL extends AbstractLaravelModel
     protected $fillable = [
         'id',
         'app_id',
+        'segment_id',
         'name',
         'slug'
     ];
