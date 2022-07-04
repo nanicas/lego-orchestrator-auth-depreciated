@@ -3,11 +3,11 @@
 namespace Zevitagem\LegoAuth\Models;
 
 use Illuminate\Database\Eloquent\Model;
-use Zevitagem\LegoAuth\Traits\Models\ApplicationModelTrait;
+use Zevitagem\LegoAuth\Traits\Models\AbstractModelTrait;
 
 abstract class AbstractLaravelModel extends Model
 {
-    use ApplicationModelTrait;
+    use AbstractModelTrait;
     
     const PRIMARY_KEY = 'id';
 

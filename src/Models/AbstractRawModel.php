@@ -2,11 +2,11 @@
 
 namespace Zevitagem\LegoAuth\Models;
 
-use Zevitagem\LegoAuth\Traits\Models\ApplicationModelTrait;
+use Zevitagem\LegoAuth\Traits\Models\AbstractModelTrait;
 
 abstract class AbstractRawModel
 {
-    use ApplicationModelTrait;
+    use AbstractModelTrait;
     
     public function __construct(array $attributes = [])
     {
