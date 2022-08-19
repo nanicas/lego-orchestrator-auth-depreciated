@@ -6,7 +6,7 @@ use Zevitagem\LegoAuth\Services\Login\LoginSourceService;
 use Zevitagem\LegoAuth\Controllers\Laravel\AbstractLoginLaravelController;
 use Zevitagem\LegoAuth\Helpers\Helper;
 use Zevitagem\LegoAuth\Adapters\FactoryAdapter;
-use Zevitagem\LegoAuth\Helpers\ApiState;
+use Zevitagem\LegoAuth\Staters\AppStater;
 use Illuminate\Http\Request;
 
 class LoginLaravelSourceController extends AbstractLoginLaravelController
@@ -44,7 +44,7 @@ class LoginLaravelSourceController extends AbstractLoginLaravelController
     public function generateTempAuthByToken()
     {
         Helper::defaultExecutationToReplyJson(function () {
-            return $this->getAuthorizationService()->getTempAuthByState(ApiState::all());
+            return $this->getAuthorizationService()->getTempAuthByState(AppStater::all());
         });
     }
 }

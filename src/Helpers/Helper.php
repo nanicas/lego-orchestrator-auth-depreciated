@@ -6,9 +6,10 @@ use Psr\Http\Message\ResponseInterface;
 use Zevitagem\LegoAuth\Adapters\FactoryAdapter;
 use Zevitagem\LegoAuth\Controllers\AuthorizationController;
 use Zevitagem\LegoAuth\Controllers\ApplicationController;
+use Zevitagem\LegoAuth\UseCase\UserDataCase;
 
 class Helper
-{
+{   
     public static function createBuildQueryToOutLogin(): string
     {
         $adapter = self::getGeneralAdapter();
@@ -42,7 +43,13 @@ class Helper
 
     public static function getUserConfig()
     {
-        return \Zevitagem\LegoAuth\Services\SessionService::getCurrentData()['user']['config'];
+        $sessionData = self::getSessionData();
+        $sessionData['user_id'] = $sessionData['user']['id'];
+        
+        $userCase = new UserDataCase($sessionData);
+        
+        return $userCase->getConfigUser();
+        //return \Zevitagem\LegoAuth\Services\SessionService::getCurrentData()['user']['config'];
     }
 
     public static function getCustomer()
@@ -230,6 +237,7 @@ class Helper
 
         if ($config['is_sourcer'] == false) {
             $middlewares[] = $config['middlewares']['auth_filler_middleware'];
+            $middlewares[] = $config['middlewares']['filler_singleton_state_middleware'];
         }
 
         return $middlewares;

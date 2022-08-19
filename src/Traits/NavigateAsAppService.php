@@ -11,7 +11,7 @@ use Zevitagem\LegoAuth\Traits\ResponseTrait;
 use GuzzleHttp\Client;
 use Zevitagem\LegoAuth\Helpers\Helper;
 use Zevitagem\LegoAuth\Factories\PersistenceDataFactory;
-use Zevitagem\LegoAuth\UseCase\UserDataToSession;
+use Zevitagem\LegoAuth\UseCase\UserDataCase;
 
 trait NavigateAsAppService
 {
@@ -99,7 +99,7 @@ trait NavigateAsAppService
 
     public function generateSessionData(array $data)
     {
-        $service = new UserDataToSession($data);
+        $service = new UserDataCase($data);
         
         $data['user'] = $service->getUser();
         $data['user']['config'] = $service->getConfigUser();

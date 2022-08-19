@@ -8,6 +8,7 @@ use Zevitagem\LegoAuth\Repositories\AbstractRepository;
 use Zevitagem\LegoAuth\Models\Laravel\ContractL;
 use Zevitagem\LegoAuth\Models\Laravel\CustomerL;
 use Zevitagem\LegoAuth\Models\Laravel\SegmentL;
+use Zevitagem\LegoAuth\Models\Laravel\RuleL;
 
 class PainelRepository extends AbstractRepository
 {
@@ -120,6 +121,32 @@ class PainelRepository extends AbstractRepository
         }
 
         return SegmentL::hydrate($data['response']);
+    }
+    
+    public function getRulesByApplication(int $appId)
+    {
+        $url    = env('PAINEL_APP_URL');
+        $params = http_build_query(array_merge([
+            'action' => 'getRulesByApp',
+            'application_id' => $appId
+        ]));
+
+        $client = new Client([
+            'base_uri' => $url,
+            'headers' => [
+                'route' => self::ROUTE
+            ]
+        ]);
+
+        $response = $client->request('GET', '?'.$params);
+
+        $data = Helper::extractJsonFromRequester($response);
+
+        if (empty($data['response'])) {
+            return [];
+        }
+
+        return RuleL::hydrate($data['response']);
     }
 
     public function storeContract(array $data)

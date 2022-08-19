@@ -8,7 +8,7 @@ use Zevitagem\LegoAuth\Exceptions\ImpossibilityToGetUserDataException;
 use GuzzleHttp\Client;
 use Zevitagem\LegoAuth\Services\UserService;
 
-class UserDataToSession
+class UserDataCase
 {
     private array $config;
 

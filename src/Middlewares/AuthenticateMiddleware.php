@@ -4,7 +4,7 @@ namespace Zevitagem\LegoAuth\Middlewares;
 
 use GuzzleHttp\Client;
 use Zevitagem\LegoAuth\Helpers\Helper;
-use Zevitagem\LegoAuth\Helpers\ApiState;
+use Zevitagem\LegoAuth\Staters\AppStater;
 
 class AuthenticateMiddleware
 {
@@ -36,7 +36,7 @@ class AuthenticateMiddleware
             exit;
         }
 
-        ApiState::instance($response['response']);
+        AppStater::instance($response['response']);
 
         return $next($request);
     }

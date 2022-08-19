@@ -9,6 +9,7 @@ class ConfigUserL extends AbstractLaravelModel
     protected $fillable = [
         'name',
         'user_id',
+        'rule_id',
         'slug',
         'admin'
     ];
@@ -21,6 +22,11 @@ class ConfigUserL extends AbstractLaravelModel
     public function getUser()
     {
         return $this->user_id;
+    }
+    
+    public function getRuleId()
+    {
+        return $this->rule_id;
     }
 
     public function getSlug()
