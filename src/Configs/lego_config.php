@@ -4,6 +4,7 @@ return [
         'auth_filler_middleware' => Zevitagem\LegoAuth\Middlewares\AuthFillerMiddleware::class,
         'authenticable_middleware' => Zevitagem\LegoAuth\Middlewares\AuthenticateMiddleware::class,
         'filler_singleton_state_middleware' => Zevitagem\LegoAuth\Middlewares\FillerSingletonStateMiddleware::class,
+        'force_configured' => Zevitagem\LegoAuth\Middlewares\ForceConfiguredMiddleware::class,
     ],
     'models' => [
         'user' => App\Models\User::class,
@@ -14,6 +15,9 @@ return [
         'contract' => \Zevitagem\LegoAuth\Models\Laravel\ContractL::class,
         'slug' => \Zevitagem\LegoAuth\Models\Laravel\SlugL::class,
         'rule' => \Zevitagem\LegoAuth\Models\Laravel\RuleL::class,
+        'scope' => \Zevitagem\LegoAuth\Models\Laravel\ScopeL::class,
+        'customer' => \Zevitagem\LegoAuth\Models\Laravel\CustomerL::class,
+        'segment' => \Zevitagem\LegoAuth\Models\Laravel\SegmentL::class,
     ],
     'api_group' => 'api',
     'config_user_api' => \Zevitagem\LegoAuth\Controllers\Api\ConfigUserApiController::class,

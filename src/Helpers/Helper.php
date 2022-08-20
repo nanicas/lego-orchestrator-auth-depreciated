@@ -91,6 +91,19 @@ class Helper
 
         return (isset($config['pages'][$page]) && $config['pages'][$page] === true);
     }
+    
+    public static function hydrateByModel(string $key, $data = null)
+    {
+        $models = self::readConfig()['models'];
+        
+        if (!isset($models[$key])) {
+            return null;
+        }
+        
+        $model = $models[$key];
+
+        return call_user_func_array($model .'::hydrate', [$data]);
+    }
 
     public static function getPackage()
     {
@@ -224,12 +237,12 @@ class Helper
         return (!empty($_GET['token']));
     }
 
-    public static function defineLaravelWebMiddlewares(array $middlewares = ['web'])
+    public static function defineLaravelWebMiddlewares(array $middlewares = ['web'], &$config = [])
     {
-        return self::defineWebMiddlewares($middlewares);
+        return self::defineWebMiddlewares($middlewares, $config);
     }
 
-    public static function defineWebMiddlewares(array $middlewares = [])
+    public static function defineWebMiddlewares(array $middlewares = [], &$config = [])
     {
         if (empty($config = self::readConfig())) {
             return $middlewares;
@@ -238,6 +251,7 @@ class Helper
         if ($config['is_sourcer'] == false) {
             $middlewares[] = $config['middlewares']['auth_filler_middleware'];
             $middlewares[] = $config['middlewares']['filler_singleton_state_middleware'];
+            $middlewares[] = $config['middlewares']['force_configured'];
         }
 
         return $middlewares;

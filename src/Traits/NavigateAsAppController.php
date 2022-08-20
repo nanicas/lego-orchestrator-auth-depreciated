@@ -73,11 +73,11 @@ trait NavigateAsAppController
                 $service->tryGenerateAccessToken($_GET);
 
                 $sessionData = $service->generateSessionData($service->getResponse()['response']);
-                $service->configureSession($sessionData);
+                $service->configureSession($sessionData['mandatory']);
 
                 if (Helper::isLaravel() 
                     && Helper::hasPage('user_config')
-                    && $sessionData['user']['config'] === null) {
+                    && $sessionData['optional']['config'] === null) {
                     return Helper::getLoginAdapter()->redirUserConfigPage();
                 }
             }

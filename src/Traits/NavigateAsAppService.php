@@ -102,9 +102,14 @@ trait NavigateAsAppService
         $service = new UserDataCase($data);
         
         $data['user'] = $service->getUser();
-        $data['user']['config'] = $service->getConfigUser();
+        $config = $service->getConfigUser();
 
-        return $data;
+        return [
+            'mandatory' => $data,
+            'optional' => [
+                'config' => $config
+            ]
+        ];
     }
 
     public function changeSessionByIdentifier(string $identifier)

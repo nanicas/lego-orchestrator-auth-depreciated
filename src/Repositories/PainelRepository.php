@@ -5,15 +5,11 @@ namespace Zevitagem\LegoAuth\Repositories;
 use GuzzleHttp\Client;
 use Zevitagem\LegoAuth\Helpers\Helper;
 use Zevitagem\LegoAuth\Repositories\AbstractRepository;
-use Zevitagem\LegoAuth\Models\Laravel\ContractL;
-use Zevitagem\LegoAuth\Models\Laravel\CustomerL;
-use Zevitagem\LegoAuth\Models\Laravel\SegmentL;
-use Zevitagem\LegoAuth\Models\Laravel\RuleL;
 
 class PainelRepository extends AbstractRepository
 {
     const ROUTE = 'painel';
-
+    
     public function getInfoBySlugTextAndApplication(
         string $slug, int $applicatonId
     )
@@ -43,7 +39,7 @@ class PainelRepository extends AbstractRepository
         return $data['response'];
     }
 
-     public function getCustomerInfo(int $id)
+    public function getCustomerInfo(int $id)
     {
         $url    = env('PAINEL_APP_URL');
         $params = http_build_query(array_merge([
@@ -66,8 +62,8 @@ class PainelRepository extends AbstractRepository
             return [];
         }
 
-        $customer = CustomerL::hydrate([$data['response']['customer']])->first();
-        $slugs    = ContractL::hydrate($data['response']['slugs']);
+        $customer = Helper::hydrateByModel('customer', [$data['response']['customer']])->first();
+        $slugs    = Helper::hydrateByModel('contract', $data['response']['slugs']);
 
         return compact('customer', 'slugs');
     }
@@ -95,7 +91,7 @@ class PainelRepository extends AbstractRepository
             return [];
         }
 
-        return ContractL::hydrate([$data['response']])->first();
+        return Helper::hydrateByModel('contract', [$data['response']])->first();
     }
 
     public function getSegments()
@@ -120,7 +116,7 @@ class PainelRepository extends AbstractRepository
             return [];
         }
 
-        return SegmentL::hydrate($data['response']);
+        return Helper::hydrateByModel('segment', $data['response']);
     }
     
     public function getRulesByApplication(int $appId)
@@ -146,7 +142,37 @@ class PainelRepository extends AbstractRepository
             return [];
         }
 
-        return RuleL::hydrate($data['response']);
+        return Helper::hydrateByModel('rule', $data['response']);
+    }
+    
+    public function getScopesByRule($ruleId = null)
+    {
+        if (empty($ruleId)) {
+            return [];
+        }
+
+        $url    = env('PAINEL_APP_URL');
+        $params = http_build_query(array_merge([
+            'action' => 'getScopesByRule',
+            'rule_id' => $ruleId
+        ]));
+
+        $client = new Client([
+            'base_uri' => $url,
+            'headers' => [
+                'route' => self::ROUTE
+            ]
+        ]);
+
+        $response = $client->request('GET', '?'.$params);
+
+        $data = Helper::extractJsonFromRequester($response);
+
+        if (empty($data['response'])) {
+            return [];
+        }
+
+        return Helper::hydrateByModel('scope', $data['response']);
     }
 
     public function storeContract(array $data)
@@ -209,6 +235,6 @@ class PainelRepository extends AbstractRepository
             return [];
         }
 
-        return ContractL::hydrate($data['response']['contracts']);
+        return Helper::hydrateByModel('contract', $data['response']['contracts']);
     }
 }
