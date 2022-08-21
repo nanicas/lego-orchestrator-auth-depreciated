@@ -15,6 +15,7 @@ class ApplicationL extends AbstractLaravelModel
         'name',
         'domain',
         'id',
+        'uuid',
         'active',
         'login_route',
         'site_route'

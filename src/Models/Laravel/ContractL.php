@@ -43,6 +43,11 @@ class ContractL extends AbstractLaravelModel
     {
         return $this->slug_name;
     }
+    
+    public function getSlugId()
+    {
+        return $this->slug_id;
+    }
 
     public function getSegmentName()
     {

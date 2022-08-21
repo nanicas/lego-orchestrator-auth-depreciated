@@ -3,18 +3,14 @@
 namespace Zevitagem\LegoAuth\Services;
 
 use GuzzleHttp\Client;
-use Zevitagem\LegoAuth\Hydrators\SlugHydrator;
 use Zevitagem\LegoAuth\Helpers\Helper;
 
 class SlugService
 {
-
     public function getSlugsByApplication(int $app)
     {
-        $hydrator = new SlugHydrator();
-
-        $client   = new Client([
-            'base_uri' => env('AUTHORIZATION_APP_URL').'?action=getSlugsByApp&app='.$app,
+        $client = new Client([
+            'base_uri' => env('AUTHORIZATION_APP_URL') . '?action=getSlugsByApp&app=' . $app,
             'headers' => [
                 'route' => 'access'
             ]
@@ -23,20 +19,33 @@ class SlugService
 
         $extractedResponse = Helper::extractJsonFromRequester($response);
 
-        return $hydrator->hydrateArray($extractedResponse['response']);
+        return Helper::hydrateByModel('slug', $extractedResponse['response']);
     }
 
-    public function getSlug(int $slug)
+    public function getActivesSlugsByApplication(int $app)
     {
-        $hydrator = new SlugHydrator();
-
-        $client   = new Client([
-            'base_uri' => env('AUTHORIZATION_APP_URL').'?action=getSlug&id='.$slug,
+        $client = new Client([
+            'base_uri' => env('AUTHORIZATION_APP_URL') . '?action=getActivesSlugsByApplication&app=' . $app,
             'headers' => [
                 'route' => 'access'
             ]
         ]);
-        
+        $response = $client->request('GET');
+
+        $extractedResponse = Helper::extractJsonFromRequester($response);
+
+        return Helper::hydrateByModel('contract', $extractedResponse['response']);
+    }
+
+    public function getSlug(int $slug)
+    {
+        $client = new Client([
+            'base_uri' => env('AUTHORIZATION_APP_URL') . '?action=getSlug&id=' . $slug,
+            'headers' => [
+                'route' => 'access'
+            ]
+        ]);
+
         $response = $client->request('GET');
 
         $extractedResponse = Helper::extractJsonFromRequester($response);
@@ -45,6 +54,6 @@ class SlugService
             return null;
         }
 
-        return $hydrator->hydrate($extractedResponse['response']);
+        return Helper::hydrateByModel('slug', $extractedResponse['response']);
     }
 }

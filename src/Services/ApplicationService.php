@@ -4,7 +4,6 @@ namespace Zevitagem\LegoAuth\Services;
 
 use GuzzleHttp\Client;
 use Zevitagem\LegoAuth\Hydrators\ApplicationHydrator;
-use Zevitagem\LegoAuth\Hydrators\SlugHydrator;
 use Zevitagem\LegoAuth\Helpers\Helper;
 use Zevitagem\LegoAuth\Contracts\FilterContract;
 use Zevitagem\LegoAuth\Filters\ApplicationCompleter;
@@ -68,23 +67,25 @@ class ApplicationService
 
         return $hydrator->hydrate($extractedResponse['response']);
     }
-
-    public function getSlugsByApplication(int $app)
+    
+    public function getApplicationsByFilters(array $filters = [])
     {
-        $hydrator = new SlugHydrator();
-
+        $params = http_build_query(array_merge($filters, [
+            'action' => 'getApplicationsByFilters'
+        ]));
+        
         $client   = new Client([
-            'base_uri' => env('AUTHORIZATION_APP_URL').'?action=getSlugsByApp&app='.$app,
+            'base_uri' => env('AUTHORIZATION_APP_URL').'?action=getApplicationsByFilters',
             'headers' => [
                 'route' => 'access'
             ]
         ]);
         
-        $response = $client->request('GET');
+        $response = $client->request('GET', '?'.$params);
 
         $extractedResponse = Helper::extractJsonFromRequester($response);
-        
-        return $hydrator->hydrateArray($extractedResponse['response']);
+
+        return Helper::hydrateByModel('application', $extractedResponse['response']);
     }
     
     public function getAllowedApplicationsToLogin()
