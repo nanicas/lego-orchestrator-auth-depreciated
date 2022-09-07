@@ -65,7 +65,9 @@ class Helper
     public static function isMaster()
     {
         $customer = self::getCustomer();
-        return (!empty($customer) && !empty($customer['active']));
+        $contract = self::getContract();
+        
+        return (!empty($customer) && !empty($contract) && !empty($customer['active']));
     }
 
     public static function isAdmin()

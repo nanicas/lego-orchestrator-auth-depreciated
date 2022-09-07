@@ -3,26 +3,17 @@
 namespace Zevitagem\LegoAuth\Services;
 
 use Zevitagem\LegoAuth\Repositories\AbstractRepository;
+use Zevitagem\LegoAuth\Traits\AvailabilityWithDependencie;
 
 abstract class AbstractService
 {
-
+    use AvailabilityWithDependencie;
+    
     protected $repository;
-    protected $dependencies = [];
 
     public function getRepository()
     {
         return $this->repository;
-    }
-
-    protected function setDependencie(string $key, $object)
-    {
-        $this->dependencies[$key] = $object;
-    }
-
-    protected function getDependencie(string $key)
-    {
-        return $this->dependencies[$key] ?? null;
     }
 
     protected function setRepository(AbstractRepository $repository)

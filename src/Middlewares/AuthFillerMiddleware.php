@@ -32,7 +32,7 @@ class AuthFillerMiddleware
                     'action' => 'tryRegenerateToken'
             ]);
         } catch (\Throwable $thr) {
-            return $loginAdapter->redirLoginPage(['message' => $thr->getMessage()]);
+            return $loginAdapter->redirLoginPage(['message' => $thr->getMessage() .' = [' . $thr->getFile() . '] on line ' . $thr->getLine()]);
         }
     }
 }

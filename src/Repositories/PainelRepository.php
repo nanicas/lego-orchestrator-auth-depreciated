@@ -8,6 +8,7 @@ use Zevitagem\LegoAuth\Repositories\AbstractRepository;
 
 class PainelRepository extends AbstractRepository
 {
+    const PAINEL_HANDLER_KEY = 'painel_handler';
     const ROUTE = 'painel';
     
     public function getInfoBySlugTextAndApplication(
@@ -137,14 +138,16 @@ class PainelRepository extends AbstractRepository
         $response = $client->request('GET', '?'.$params);
 
         $data = Helper::extractJsonFromRequester($response);
+        $rules = [];
 
-        if (empty($data['response'])) {
-            return [];
+        if (!empty($data['response'])) {
+            $rules = Helper::hydrateByModel('rule', $data['response']);
         }
 
-        return Helper::hydrateByModel('rule', $data['response']);
+        $this->handle(self::PAINEL_HANDLER_KEY, 'after', __FUNCTION__, $rules);
+        return $rules;
     }
-    
+
     public function getScopesByRule($ruleId = null)
     {
         if (empty($ruleId)) {
