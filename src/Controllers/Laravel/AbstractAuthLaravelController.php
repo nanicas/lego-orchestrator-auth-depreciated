@@ -9,7 +9,6 @@ use Zevitagem\LegoAuth\Traits\AvailabilityWithView;
 
 abstract class AbstractAuthLaravelController extends Controller
 {
-
     use AvailabilityWithService,
         AvailabilityWithView;
     
@@ -17,6 +16,8 @@ abstract class AbstractAuthLaravelController extends Controller
 
     public function __construct()
     {
+        parent::__construct();
+        
         $this->authorizationService = new AuthorizationService();
 
         $this->addViewNamespace();

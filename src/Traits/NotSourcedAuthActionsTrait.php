@@ -26,6 +26,8 @@ trait NotSourcedAuthActionsTrait
             $view = 'outsourced_login.with_slugs_outside';
         }
 
+        $this->beforeView();
+        
         return $adapter->loadView($view, $data);
     }
 }

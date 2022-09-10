@@ -37,6 +37,8 @@ class LoginLaravelSourceController extends AbstractLoginLaravelController
     public function showLoginForm()
     {
         $adapter = FactoryAdapter::instance(FactoryAdapter::GENERAL_TYPE);
+        
+        $this->beforeView();
 
         return $adapter->loadView('sourced_login', $this->getService()->getDataOnShowLogin($_GET));
     }

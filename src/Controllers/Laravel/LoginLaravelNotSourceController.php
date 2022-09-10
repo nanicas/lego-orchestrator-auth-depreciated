@@ -9,7 +9,6 @@ use \Zevitagem\LegoAuth\Traits\NotSourcedAuthActionsTrait;
 
 class LoginLaravelNotSourceController extends AbstractLoginLaravelController
 {
-
     use NavigateAsAppController,
         NotSourcedAuthActionsTrait;
 
