@@ -4,6 +4,7 @@ namespace Zevitagem\LegoAuth\Providers;
 
 use Illuminate\Support\ServiceProvider;
 use Zevitagem\LegoAuth\Helpers\Helper;
+use Illuminate\Support\Facades\Route;
 
 class BootstrapServiceProvider extends ServiceProvider
 {
