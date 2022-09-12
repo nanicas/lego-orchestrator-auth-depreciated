@@ -20,19 +20,19 @@ class BootstrapServiceProvider extends ServiceProvider
 
         $this->publishes([
             $src.'/Migrations' => database_path('migrations'),
-            ], 'migrations');
+            ], 'lego_auth:migrations');
 
         $this->publishes([
             $src.'/Routes' => base_path('routes'),
-            ], 'routes');
+            ], 'lego_auth:routes');
 
         $this->publishes([
             $src.'/Views/Laravel' => resource_path('views/vendor/'.$package),
-            ], 'views');
+            ], 'lego_auth:views');
 
         $this->publishes([
             $src.'/Assets' => public_path('vendor/'.$package),
-            ], 'assets');
+            ], 'lego_auth:assets');
     }
 
     /**
