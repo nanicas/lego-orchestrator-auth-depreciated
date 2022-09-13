@@ -9,7 +9,11 @@ class RouteServiceProvider extends ServiceProvider
 {
     public function boot()
     {
-        Route::namespace($this->namespace)
-                ->group(base_path('routes/lego.php'));
+        $file = base_path('routes/lego.php');
+
+        if (file_exists($file)) {
+            Route::namespace($this->namespace)
+                    ->group($file);
+        }
     }
 }
