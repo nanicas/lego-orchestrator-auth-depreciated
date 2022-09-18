@@ -9,8 +9,7 @@ use Zevitagem\LegoAuth\Traits\AvailabilityWithView;
 
 abstract class AbstractAuthLaravelController extends Controller
 {
-    use AvailabilityWithService,
-        AvailabilityWithView;
+    use AvailabilityWithView;
     
     protected $authorizationService;
 
