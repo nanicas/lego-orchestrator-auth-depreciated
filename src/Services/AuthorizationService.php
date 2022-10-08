@@ -13,7 +13,6 @@ use Zevitagem\LegoAuth\Exceptions\ImpossibilityGenerateTokenByTokenException;
 
 class AuthorizationService extends AbstractService
 {
-
     public function __construct()
     {
         $this->setRepository(new AuthorizationRepository());

@@ -4,16 +4,15 @@ namespace Zevitagem\LegoAuth\Controllers;
 
 use App\Http\Controllers\Controller;
 use Zevitagem\LegoAuth\Helpers\Helper;
-use Zevitagem\LegoAuth\Traits\AvailabilityWithService;
 use Zevitagem\LegoAuth\Services\AuthorizationService;
 
 class AuthorizationController extends Controller
 {
-    use AvailabilityWithService;
-    
     public function __construct()
     {
         $this->setService(new AuthorizationService());
+        
+        parent::__construct();
     }
 
     /**
@@ -26,7 +25,7 @@ class AuthorizationController extends Controller
         $data = $_POST['data'];
 
         try {
-            $status = $this->service->checkIfExistsCode($data);
+            $status = $this->getService()->checkIfExistsCode($data);
             $message = 'verified_with_success' . ( ($status) ? 'no_error' : 'containing_error' ) ;
         } catch (\Throwable $ex) {
             $status = false;
