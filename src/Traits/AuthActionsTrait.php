@@ -36,14 +36,14 @@ trait AuthActionsTrait
     public function redirectTo()
     {
         if (!Helper::isOutSourcedAccess()) {
-            return;
+            return '';
         }
 
         $end = $this->authenticateData['params'] ?? '';
         if ($this->authenticateData['status'] == false) {
             $end = 'message='.json_encode($this->authenticateData['response']['message']);
         }
-
+        
         return $_POST['url_callback'].'?'.$end;
     }
 }

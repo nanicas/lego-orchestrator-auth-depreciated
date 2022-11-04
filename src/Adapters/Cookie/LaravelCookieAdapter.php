@@ -33,6 +33,10 @@ class LaravelCookieAdapter
 
     public function eraseCookieValue(array $sessionData)
     {
+        if (!isset($sessionData['auth'])) {
+            return;
+        }
+
         $authKeys = array_keys($sessionData['auth']);
 
         Cookie::queue(Cookie::forget('current_auth'));
