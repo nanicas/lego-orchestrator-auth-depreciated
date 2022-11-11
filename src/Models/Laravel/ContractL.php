@@ -12,6 +12,7 @@ class ContractL extends AbstractLaravelModel
         'id',
         'slug_id',
         'app_id',
+        'user_id',
         'slug',
         'active',
         'slug_name',
@@ -37,6 +38,11 @@ class ContractL extends AbstractLaravelModel
     public function getApplicationId()
     {
         return $this->app_id;
+    }
+    
+    public function getUserId()
+    {
+        return $this->user_id;
     }
 
     public function getSlugName()
