@@ -5,6 +5,7 @@ namespace Zevitagem\LegoAuth\Traits;
 use Zevitagem\LegoAuth\Helpers\Helper;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use App\Providers\RouteServiceProvider;
 
 trait AuthActionsTrait
 {
@@ -36,7 +37,7 @@ trait AuthActionsTrait
     public function redirectTo()
     {
         if (!Helper::isOutSourcedAccess()) {
-            return '';
+            return property_exists($this, 'redirectTo') ? $this->redirectTo : RouteServiceProvider::HOME;
         }
 
         $end = $this->authenticateData['params'] ?? '';
